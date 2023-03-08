@@ -3,6 +3,7 @@ import light_off from "../media/light_off.png"
 import door_open from "../media/door_open.png"
 import door_closed from "../media/door_closed.png"
 import "../style/Home.css"
+import firebase from './firebase';
 
 import React, { 
     useState, 
@@ -25,6 +26,32 @@ function Home(){
     const handleDoor = (checked) => {
         setDoor(checked);
     }
+
+    const [Units, setUnits] = useState([])
+  const [loading, setloading] = useState([false])
+
+  const ref = firebase.firestore().collection("Units")
+  console.log(ref);
+
+  function getUnits(){
+    setloading(true)
+    ref.onSnapshot((querySnapshot) =>{
+      const items = []
+      querySnapshot.forEach((doc) =>{
+        items.push(doc.data())
+      })
+      setUnits(items)
+      setloading(false)
+
+    })
+  }
+
+  useEffect(() =>{
+    getUnits()
+  }, [])
+  if(loading){
+    return <h1>Loading...</h1>
+  }
 
 
     return (
@@ -102,6 +129,22 @@ function Home(){
         }
         <br />
         </div>
+
+    
+    
+        <br />
+        <div className="center">
+        <h2 className="description"> Units </h2>
+        </div>
+        <div className="border">
+        {Units.map((Units) =>(
+        <div key={Units.id}>
+          <h2>Enhet: {Units.title}</h2>
+          <h2>Status: {Units.status}</h2>
+          </div>
+        ))}
+        </div>
+        <br />
 
 
         </div>
