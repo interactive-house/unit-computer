@@ -142,13 +142,13 @@ const [loading, setloading] = useState(false);
             {doorStatus &&
               <div>
                 <h3 className="status"> Open </h3>
-                <img src={door_open} alt="door_open" width="60" height="75" />
+                <img src={door_open} alt="door_open" width="60" height="120" />
               </div>
             }
             {!doorStatus &&
               <div>
                 <h3 className="status" style={{ color: "red" }}> Closed </h3>
-                <img src={door_closed} alt="door_closed" width="60" height="75" />
+                <img src={door_closed} alt="door_closed" width="60" height="120" />
               </div>
             }
             <br />
