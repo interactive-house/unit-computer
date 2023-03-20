@@ -48,7 +48,7 @@ function Home() {
 
     soilRef.on("value", (snapshot) => {
       setSoilValue(snapshot.val());
-      setSoilStatus(snapshot.val() === "dry");
+      setSoilStatus(snapshot.val() === "wet");
     });
 
     return () => {
@@ -72,7 +72,7 @@ function Home() {
   };
 
   const handleSoilToggle = (checked) => {
-    firebase.database().ref("soil/soil1").set(checked ? "dry" : "wet");
+    firebase.database().ref("soil/soil1").set(checked ? "wet" : "dry");
   };
 
 
