@@ -1,99 +1,94 @@
-import light_on from "../media/light_on.png"
-import light_off from "../media/light_off.png"
-import door_open from "../media/door_open.png"
-import door_closed from "../media/door_closed.png"
-import "../style/Home.css"
-import firebase from './firebase';
+import light_on from "../media/light_on.png";
+import light_off from "../media/light_off.png";
+import door_open from "../media/door_open.png";
+import door_closed from "../media/door_closed.png";
+import window_open from "../media/window_open.png";
+import window_closed from "../media/window_closed.png";
+import soil_wet from "../media/soil_wet.png";
+import soil_dry from "../media/soil_dry.png";
 
-import React, { 
-    useState, 
-    useEffect 
-} from 'react';
 
+import React, { useState, useEffect } from "react";
 import ReactSwitch from 'react-switch';
+import "firebase/database";
+import firebase from "./firebase";
+import "../style/Home.css";
 
+function Home() {
+  const [lightStatus, setLightStatus] = useState(false);
+  const [doorStatus, setDoorStatus] = useState(false);
+  const [windowStatus, setWindowStatus] = useState(false);
+  const [SoilStatus, setSoilStatus] = useState(false);
 
+  const [doorValue, setDoorValue] = useState("");
+  const [lampValue, setLampValue] = useState("");
+  const [windowValue, setWindowValue] = useState("");
+  const [SoilValue, setSoilValue] = useState("");
 
-function Home(){
-const [lightStatus, setLightStatus] = useState(false);
-const [doorStatus, setDoorStatus] = useState(false);
+  useEffect(() => {
+    const doorRef = firebase.database().ref("door/door1");
+    const lampRef = firebase.database().ref("lamp/lamp1");
+    const windowRef = firebase.database().ref("window/window1");
+    const soilRef = firebase.database().ref("soil/soil1");
 
-//Firebase
-const [Units, setUnits] = useState([]);
-const [loading, setloading] = useState(false);
-
-  const ref = firebase.firestore().collection("Units")
-  console.log(ref);
-
-
-
-  function getUnits() {
-    setloading(true);
-    ref.onSnapshot((querySnapshot) => {
-      const items = [];
-      querySnapshot.forEach((doc) => {
-        const unit = doc.data();
-        if (unit.title === "lamp1") {
-          const status = unit.status === 0 ? false : true; // if the value is 0 then lamp of
-          setLightStatus(status);
-        } else if (unit.title === "door1") {
-          const status = unit.status === 0 ? false : true; // if the door is 1 then door opend
-          setDoorStatus(status);
-        }
-        items.push(unit);
-      });
-      setUnits(items);
-      setloading(false);
+    doorRef.on("value", (snapshot) => {
+      setDoorValue(snapshot.val());
+      setDoorStatus(snapshot.val() === "open");
     });
-  }
 
-  useEffect(() =>{
-    getUnits()
-  }, [])
+    lampRef.on("value", (snapshot) => {
+      setLampValue(snapshot.val());
+      setLightStatus(snapshot.val() === "on");
+    });
 
+    windowRef.on("value", (snapshot) => {
+      setWindowValue(snapshot.val());
+      setWindowStatus(snapshot.val() === "open");
+    });
 
-    if(loading){
-        return <h1>Loading...</h1>
-    }
+    soilRef.on("value", (snapshot) => {
+      setSoilValue(snapshot.val());
+      setSoilStatus(snapshot.val() === "dry");
+    });
 
-    const handleUnit = (unit, checked, document) => {
-        console.log('Handling unit:', unit);
-        console.log('Document:', document);
-        const newStatus = checked ? 1 : 0;
-        const collectionRef = firebase.firestore().collection("Units").doc(document);
+    return () => {
+      doorRef.off();
+      lampRef.off();
+      windowRef.off();
+      soilRef.off();
+    };
+  }, []);
 
-        collectionRef.get()
-          .then((doc) => {
-            if (doc.exists) {
-              collectionRef.update({ status: newStatus })
-                .then(() => console.log('Unit status updated'))
-                .catch((error) => console.error('Error updating unit status:', error))
-            } else {
-              console.error('Unit not found in database');
-            }
-          })
-          .catch((error) => console.error('Error reading unit from database:', error))
-      } 
-      
-    
+  const handleLampToggle = (checked) => {
+    firebase.database().ref("lamp/lamp1").set(checked ? "on" : "off");
+  };
 
+  const handleDoorToggle = (checked) => {
+    firebase.database().ref("door/door1").set(checked ? "open" : "closed");
+  };
 
+  const handleWindowToggle = (checked) => {
+    firebase.database().ref("window/window1").set(checked ? "open" : "closed");
+  };
+
+  const handleSoilToggle = (checked) => {
+    firebase.database().ref("soil/soil1").set(checked ? "dry" : "wet");
+  };
 
 
     return (
-        <div>
+      <div>
     <div className="center">
       <br />
       <h1 className="shadow"> Unit-Computer </h1>
-      <br />
 
-      <h2 className="description"> Light </h2>
+      <h2 className="description">Light</h2>
     </div>
     <div className="border">
       <br />
       <ReactSwitch
         checked={lightStatus}
-        onChange={(checked) => handleUnit({ title: "lamp1" }, checked, "Lamp")}
+        onChange={handleLampToggle}
         onColor="#86d3ff"
         onHandleColor="#2693e6"
         handleDiameter={30}
@@ -105,7 +100,7 @@ const [loading, setloading] = useState(false);
         height={20}
         id="material-switch"
       />
-      {lightStatus &&
+     {lightStatus &&
         <div>
           <h3 className="status"> On </h3>
           <img src={light_on} alt="light_on" width="60" height="75" />
@@ -120,14 +115,18 @@ const [loading, setloading] = useState(false);
         <br />
         </div>
         <br />
+
+
+
+
         <div className="center">
         <h2 className="description"> Door </h2>
         </div>
         <div className="border">
-            <br />
+            <br/>
             <ReactSwitch
               checked={doorStatus}
-              onChange={(checked) => handleUnit({ title: "door1" }, checked, "Door")}
+              onChange={handleDoorToggle}     
               onColor="#86d3ff"
               onHandleColor="#2693e6"
               handleDiameter={30}
@@ -138,8 +137,9 @@ const [loading, setloading] = useState(false);
               width={48}
               height={20}
               id="material-switch"
+              
             />
-            {doorStatus &&
+             {doorStatus &&
               <div>
                 <h3 className="status"> Open </h3>
                 <img src={door_open} alt="door_open" width="60" height="120" />
@@ -155,20 +155,102 @@ const [loading, setloading] = useState(false);
           </div>
       
           <br />
+
+
+
+          <div className="center">
+        <h2 className="description"> Window </h2>
+        </div>
+        <div className="border">
+            <br/>
+            <ReactSwitch
+              checked={windowStatus}
+              onChange={handleWindowToggle}     
+              onColor="#86d3ff"
+              onHandleColor="#2693e6"
+              handleDiameter={30}
+              uncheckedIcon={false}
+              checkedIcon={false}
+              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+              width={48}
+              height={20}
+              id="material-switch"
+              
+            />
+             {windowStatus &&
+              <div>
+                <h3 className="status"> Open </h3>
+                <img src={window_open} alt="window_open" width="140" height="130" />
+              </div>
+            }
+            {!windowStatus &&
+              <div>
+                <h3 className="status" style={{ color: "red" }}> Closed </h3>
+                <img src={window_closed} alt="window_closed" width="190" height="130" />
+              </div>
+            }
+            <br />
+          </div>
+      
+          <br />
+
+
+          <div className="center">
+        <h2 className="description"> Soil </h2>
+        </div>
+        <div className="border">
+            <br/>
+            <ReactSwitch
+              checked={SoilStatus}
+              onChange={handleSoilToggle}     
+              onColor="#86d3ff"
+              onHandleColor="#2693e6"
+              handleDiameter={30}
+              uncheckedIcon={false}
+              checkedIcon={false}
+              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+              width={48}
+              height={20}
+              id="material-switch"
+              
+            />
+             {SoilStatus &&
+              <div>
+                <h3 className="status"> Wet </h3>
+                <img src={soil_wet} alt="soil_wet" width="100" height="120" />
+              </div>
+            }
+            {!SoilStatus &&
+              <div>
+                <h3 className="status" style={{ color: "red" }}> Dry </h3>
+                <img src={soil_dry} alt="soil_dry" width="100" height="120" />
+              </div>
+            }
+            <br />
+          </div>
+      
+          <br />
+
+
+
+
         <div className="center">
         <h2 className="description"> Units </h2>
         </div>
         <div className="border">
-        {Units.map((unit, index) => (
-            <div key={index}>
-                <h2>Enhet: {unit.title}</h2>
-                <h2>Status: {unit.status}</h2>
-            </div>
-            ))}
+        
+        <b>Lamp value: {lampValue}</b>
+        <br/>
+        <b>Door value: {doorValue}</b>
+        <br/>
+        <b>Window value: {windowValue}</b>
+        <br/>
+        <b>Soil value: {SoilValue}</b>
+        <br/>
         </div>
         <br />
-
-
         </div>
         
     );
