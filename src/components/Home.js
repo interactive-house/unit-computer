@@ -181,13 +181,13 @@ function Home() {
              {windowStatus &&
               <div>
                 <h3 className="status"> Open </h3>
-                <img src={window_open} alt="window_open" width="140" height="130" />
+                <img src={window_open} alt="window_open" width="160" height="130" />
               </div>
             }
             {!windowStatus &&
               <div>
                 <h3 className="status" style={{ color: "red" }}> Closed </h3>
-                <img src={window_closed} alt="window_closed" width="190" height="130" />
+                <img src={window_closed} alt="window_closed" width="160" height="130" />
               </div>
             }
             <br />
