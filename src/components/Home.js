@@ -6,6 +6,8 @@ import window_open from "../media/window_open.png";
 import window_closed from "../media/window_closed.png";
 import soil_wet from "../media/soil_wet.png";
 import soil_dry from "../media/soil_dry.png";
+import track1 from "../media/track1.mp3";
+import track2 from "../media/track2.mp3";
 
 
 import React, { useState, useEffect } from "react";
@@ -224,7 +226,8 @@ function Home() {
         <div className="border">
             <br/>
             <div className="music-player">
-          <audio controls> <source src="workfromhome.mp3" type="audio/mpeg"/> Your browser does not support the audio element.</audio>
+            <audio controls> <source src={track1}  type="audio/mpeg" /> </audio>
+            <audio controls> <source src={track2}  type="audio/mpeg" /> </audio>
           <div className="song-details">
             <h4 className="song-name">Song Name</h4>
             <div className="player-controls">
