@@ -26,10 +26,10 @@ function Home() {
   const [SoilValue, setSoilValue] = useState("");
 
   useEffect(() => {
-    const doorRef = firebase.database().ref("door/door1");
-    const lampRef = firebase.database().ref("lamp/lamp1");
-    const windowRef = firebase.database().ref("window/window1");
-    const soilRef = firebase.database().ref("soil/soil1");
+    const doorRef = firebase.database().ref("SmartHomeValueDoor/StatusOfDoor");
+    const lampRef = firebase.database().ref("SmartHomeValueLight/StatusOflight");
+    const windowRef = firebase.database().ref("SmartHomeValueWindow/StatusOfWindow");
+    const soilRef = firebase.database().ref("SmartHomeValueSoil/StatusOfSoil");
 
     doorRef.on("value", (snapshot) => {
       setDoorValue(snapshot.val());
@@ -60,19 +60,19 @@ function Home() {
   }, []);
 
   const handleLampToggle = (checked) => {
-    firebase.database().ref("lamp/lamp1").set(checked ? "on" : "off");
+    firebase.database().ref("SmartHomeValueLight/StatusOflight").set(checked ? "on" : "off");
   };
 
   const handleDoorToggle = (checked) => {
-    firebase.database().ref("door/door1").set(checked ? "open" : "closed");
+    firebase.database().ref("SmartHomeValueDoor/StatusOfDoor").set(checked ? "open" : "closed");
   };
 
   const handleWindowToggle = (checked) => {
-    firebase.database().ref("window/window1").set(checked ? "open" : "closed");
+    firebase.database().ref("/SmartHomeValueWindow/StatusOfWindow").set(checked ? "open" : "closed");
   };
 
   const handleSoilToggle = (checked) => {
-    firebase.database().ref("soil/soil1").set(checked ? "wet" : "dry");
+    firebase.database().ref("SmartHomeValueSoil/StatusOfSoil").set(checked ? "wet" : "dry");
   };
 
 
@@ -103,13 +103,13 @@ function Home() {
      {lightStatus &&
         <div>
           <h3 className="status"> On </h3>
-          <img src={light_on} alt="light_on" width="60" height="75" />
+          <img src={light_on} alt="light_on" width="80" height="100" />
         </div>
       }
       {!lightStatus &&
         <div>
           <h3 className="status" style={{ color: "red" }}> Off </h3>
-          <img src={light_off} alt="light_off" width="60" height="75" />
+          <img src={light_off} alt="light_off" width="80" height="100" />
         </div>
       }
         <br />
@@ -137,18 +137,17 @@ function Home() {
               width={48}
               height={20}
               id="material-switch"
-              
             />
              {doorStatus &&
               <div>
                 <h3 className="status"> Open </h3>
-                <img src={door_open} alt="door_open" width="60" height="120" />
+                <img src={door_open} alt="door_open" width="80" height="150" />
               </div>
             }
             {!doorStatus &&
               <div>
                 <h3 className="status" style={{ color: "red" }}> Closed </h3>
-                <img src={door_closed} alt="door_closed" width="60" height="120" />
+                <img src={door_closed} alt="door_closed" width="80" height="150" />
               </div>
             }
             <br />
@@ -181,13 +180,13 @@ function Home() {
              {windowStatus &&
               <div>
                 <h3 className="status"> Open </h3>
-                <img src={window_open} alt="window_open" width="140" height="130" />
+                <img src={window_open} alt="window_open" width="200" height="150" />
               </div>
             }
             {!windowStatus &&
               <div>
                 <h3 className="status" style={{ color: "red" }}> Closed </h3>
-                <img src={window_closed} alt="window_closed" width="190" height="130" />
+                <img src={window_closed} alt="window_closed" width="150" height="150" />
               </div>
             }
             <br />
@@ -196,38 +195,44 @@ function Home() {
           <br />
 
 
-          <div className="center">
+        <div className="center">
         <h2 className="description"> Soil </h2>
         </div>
         <div className="border">
             <br/>
-            <ReactSwitch
-              checked={SoilStatus}
-              onChange={handleSoilToggle}     
-              onColor="#86d3ff"
-              onHandleColor="#2693e6"
-              handleDiameter={30}
-              uncheckedIcon={false}
-              checkedIcon={false}
-              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-              width={48}
-              height={20}
-              id="material-switch"
-              
-            />
              {SoilStatus &&
               <div>
-                <h3 className="status"> Wet </h3>
-                <img src={soil_wet} alt="soil_wet" width="100" height="120" />
+                <h3 className="statussoil"> Wet </h3>
+                <img src={soil_wet} alt="soil_wet" width="130" height="130" />
               </div>
             }
             {!SoilStatus &&
               <div>
-                <h3 className="status" style={{ color: "red" }}> Dry </h3>
-                <img src={soil_dry} alt="soil_dry" width="100" height="120" />
+                <h3 className="status" style={{ color: "#b2996e" }}> Dry </h3>
+                <img src={soil_dry} alt="soil_dry" width="130" height="130" />
               </div>
             }
+            <br />
+          </div>
+      
+          <br />
+
+
+        <div className="center">
+        <h2 className="description"> Music Player </h2>
+        </div>
+        <div className="border">
+            <br/>
+            <div className="music-player">
+          <audio controls> <source src="workfromhome.mp3" type="audio/mpeg"/> Your browser does not support the audio element.</audio>
+          <div className="song-details">
+            <h4 className="song-name">Song Name</h4>
+            <div className="player-controls">
+              <button className="play-pause-btn">Play</button>
+              <p className="device-status">Device Status: On</p>
+            </div>
+          </div>
+        </div>
             <br />
           </div>
       
