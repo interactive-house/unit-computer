@@ -8,15 +8,14 @@ import "firebase/compat/storage";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyAARTIphiZDZ29MmvwacxciIsqzs5FKd0A",
-    authDomain: "softwareengineering-1b57b.firebaseapp.com",
-    databaseURL: "https://softwareengineering-1b57b-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "softwareengineering-1b57b",
-    storageBucket: "softwareengineering-1b57b.appspot.com",
-    messagingSenderId: "937237781476",
-    appId: "1:937237781476:web:fc9a3eb3942cca125885f1",
-    measurementId: "G-C1WZP2CME6"
-  };
+  apiKey: "AIzaSyCOZcBxs3RkxuxDrf5vT2HwexFh3ZCw94c",
+  authDomain: "smarthome-3bb7b.firebaseapp.com",
+  databaseURL: "https://smarthome-3bb7b-default-rtdb.firebaseio.com",
+  projectId: "smarthome-3bb7b",
+  storageBucket: "smarthome-3bb7b.appspot.com",
+  messagingSenderId: "642589059290",
+  appId: "1:642589059290:web:bf23df5327b9e305c81de3"
+};
 
 
 
