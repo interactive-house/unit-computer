@@ -6,8 +6,8 @@ import window_open from "../media/window_open.png";
 import window_closed from "../media/window_closed.png";
 import soil_wet from "../media/soil_wet.png";
 import soil_dry from "../media/soil_dry.png";
-import track1 from "../media/track1.mp3";
-import track2 from "../media/track2.mp3";
+import simudev from "../media/simudevice.png"
+
 
 
 import React, { useState, useEffect } from "react";
@@ -15,23 +15,33 @@ import ReactSwitch from 'react-switch';
 import "firebase/database";
 import firebase from "./firebase";
 import "../style/Home.css";
+//import { serverTimestamp } from "firebase/database";
 
 function Home() {
   const [lightStatus, setLightStatus] = useState(false);
   const [doorStatus, setDoorStatus] = useState(false);
   const [windowStatus, setWindowStatus] = useState(false);
   const [SoilStatus, setSoilStatus] = useState(false);
+  const [SimuDevStatus, setSimuDevStatus] = useState(false);
+
+
 
   const [doorValue, setDoorValue] = useState("");
   const [lampValue, setLampValue] = useState("");
   const [windowValue, setWindowValue] = useState("");
   const [SoilValue, setSoilValue] = useState("");
 
+  //music
+  const [SimuDevValue, setSimuDevValue] = useState([]);
+  
+
   useEffect(() => {
     const doorRef = firebase.database().ref("SmartHomeValueDoor/StatusOfDoor");
     const lampRef = firebase.database().ref("SmartHomeValueLight/StatusOflight");
     const windowRef = firebase.database().ref("SmartHomeValueWindow/StatusOfWindow");
     const soilRef = firebase.database().ref("SmartHomeValueSoil/StatusOfSoil");
+    const SimuDevRef = firebase.database().ref('simulatedDevices');
+
 
     doorRef.on("value", (snapshot) => {
       setDoorValue(snapshot.val());
@@ -53,13 +63,30 @@ function Home() {
       setSoilStatus(snapshot.val() === "wet");
     });
 
+ 
+    SimuDevRef.on('value', (snapshot) => {
+      const value = snapshot.val();
+      console.log(value);
+      setSimuDevValue(value);
+    });
+  
+    
+
+    
+   
+
     return () => {
       doorRef.off();
       lampRef.off();
       windowRef.off();
       soilRef.off();
+      SimuDevRef.off();
     };
   }, []);
+
+  const { currentTrack, deviceStatus, songList, status } = SimuDevValue;
+
+
 
   const handleLampToggle = (checked) => {
     firebase.database().ref("SmartHomeValueLight/StatusOflight").set(checked ? "on" : "off");
@@ -73,9 +100,17 @@ function Home() {
     firebase.database().ref("/SmartHomeValueWindow/StatusOfWindow").set(checked ? "open" : "closed");
   };
 
-  const handleSoilToggle = (checked) => {
-    firebase.database().ref("SmartHomeValueSoil/StatusOfSoil").set(checked ? "wet" : "dry");
+  const handlsimudevstatToggle = () => {
+    const newStatus = status === 'play' ? 'pause' : 'play';
+    firebase.database().ref('/simulatedDevices/status').set(newStatus);
   };
+  
+
+
+
+  
+
+
 
 
     return (
@@ -221,21 +256,53 @@ function Home() {
 
 
         <div className="center">
-        <h2 className="description"> Music Player </h2>
+        <h2 className="description"> Simulated de </h2>
         </div>
         <div className="border">
             <br/>
-            <div className="music-player">
-            <audio controls> <source src={track1}  type="audio/mpeg" /> </audio>
-            <audio controls> <source src={track2}  type="audio/mpeg" /> </audio>
-          <div className="song-details">
-            <h4 className="song-name">Song Name</h4>
-            <div className="player-controls">
-              <button className="play-pause-btn">Play</button>
-              <p className="device-status">Device Status: On</p>
-            </div>
-          </div>
-        </div>
+
+            <div>
+            <img src={simudev} alt="simulated_device" width="160" height="180" />
+
+            <h2>Current track: {currentTrack}</h2>
+            <h4>Song List:</h4>
+            {songList && songList.map((song, index) => (
+              <h4 key={index}>{song}</h4>
+              ))}
+
+            <h3 className="simudev-info">Device status:&nbsp;
+            <span className={`simudev-status 
+            ${deviceStatus === 'on' ? 'status-on' : 'status-off'}`}>
+               {deviceStatus}
+              </span>
+              </h3>
+
+
+            <h3>Status: {status}</h3>
+                <button
+                  className={`simudev-player-button ${status === 'play' ? 'play' : 'pause'}`}
+                  onClick={handlsimudevstatToggle}
+                >
+                  {status === 'play' ? 'Pause' : 'Play'}
+                </button>
+
+
+    </div>
+
+                  
+
+
+
+            
+            
+
+
+
+
+
+
+
+
             <br />
           </div>
       
@@ -248,6 +315,7 @@ function Home() {
         <h2 className="description"> Units </h2>
         </div>
         <div className="border">
+        <br/>
         
         <b>Lamp value: {lampValue}</b>
         <br/>
@@ -257,8 +325,11 @@ function Home() {
         <br/>
         <b>Soil value: {SoilValue}</b>
         <br/>
+        <b>Simulated device value: {status}</b>
+        <br/>
+        <br/>
         </div>
-        <br />
+        <br/>
         </div>
         
     );
