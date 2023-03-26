@@ -12,6 +12,7 @@ import {
 
 
 import Home from "./components/Home"
+import Login from "./components/Login"
 
 
 
@@ -21,7 +22,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Login />} />
 
 
         
