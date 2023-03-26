@@ -13,8 +13,8 @@ function Home() {
       <Light />
       <Door />
       <Window />
-      <Soil />
       <SimulatedDevice />
+      <Soil />
       <br />
     </div>
   );
