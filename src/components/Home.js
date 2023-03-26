@@ -1,4 +1,4 @@
-import "../style/Home.css";
+import "../style/Style.css";
 import Light from "./Light";
 import Door from "./Door";
 import Window from "./Window";
