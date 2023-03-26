@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router";
 import React, { useState } from "react";
 import "../style/Login.css";
+import Navbar from "./NavBar";
 
 function Login() {
   const usernameDb = "admin";
   const passwordDb = "admin";
-  
+
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,36 +22,36 @@ function Login() {
   const handleLogin = () => {
     if (username === usernameDb && password === passwordDb) {
       navigate("/home");
-    }
-    else {
+    } else {
       alert("Wrong username or password");
     }
   };
 
+  return (
+    <div>
+    <Navbar />
+    <div className="login">
+      
+      <h1>Sign In</h1>
 
-    return (
-      <div className="login">
-        <h1>Sign In</h1>
-
-        <form onSubmit={handleLogin}>
-          <label>
-            <p>Username</p>
-            <input type="text" value={username} onChange={handleUsername} />
-          </label>
-          <label>
-            <p>Password</p>
-            <input type="password" value={password} onChange={handlePassword} />
-          </label>
-        <div> <br></br>
+      <form onSubmit={handleLogin}>
+        <label>
+          <p>Username</p>
+          <input type="text" value={username} onChange={handleUsername} />
+        </label>
+        <label>
+          <p>Password</p>
+          <input type="password" value={password} onChange={handlePassword} />
+        </label>
+        <div>
+          {" "}
+          <br></br>
           <button type="submit">Login</button>
         </div>
-        </form>
-      </div>
+      </form>
+    </div>
+    </div>
+  );
+}
 
-
-        
-    );
-};
-
-  
 export default Login;
