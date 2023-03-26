@@ -30,25 +30,31 @@ function Login() {
   return (
     <div>
     <Navbar />
+    <h1 className="description">Sign In</h1>
     <div className="login">
       
-      <h1>Sign In</h1>
+      
 
       <form onSubmit={handleLogin}>
         <label>
-          <p>Username</p>
-          <input type="text" value={username} onChange={handleUsername} />
+          <br></br>
+          <br></br>
+          <p className="text">Username</p>
+          <input type="text" value={username} className="input" placeholder="Username" onChange={handleUsername} />
         </label>
         <label>
-          <p>Password</p>
-          <input type="password" value={password} onChange={handlePassword} />
+          <p className="text">Password</p>
+          <input type="password" value={password} className="input" placeholder="Password" onChange={handlePassword} />
         </label>
         <div>
           {" "}
           <br></br>
-          <button type="submit">Login</button>
+          <button className="loginButton" type="submit">Login</button>
         </div>
       </form>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
     </div>
   );
