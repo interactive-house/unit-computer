@@ -29,7 +29,7 @@ function SimulatedDevice() {
 
   return (
     <div>
-      <h2 className="description"> Simulated de </h2>
+      <h2 className="description"> Simulated device</h2>
       <div className="border">
         <br />
         <div>
