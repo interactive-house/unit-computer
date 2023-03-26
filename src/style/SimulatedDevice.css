@@ -1,0 +1,32 @@
+.description {
+  color: rgb(214, 228, 231);
+  text-align: center;
+}
+
+.status {
+  color: rgb(0, 255, 89);
+}
+
+.status-on {
+  color: rgb(0, 255, 89);
+}
+
+.status-off {
+  color: red;
+}
+
+.simudev-player-button {
+  background-color: #ccc;
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+}
+
+.play {
+  background-color: rgb(255, 2, 2);
+}
+
+.pause {
+  background-color: rgb(0, 255, 89);
+}
