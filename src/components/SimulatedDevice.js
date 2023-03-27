@@ -38,7 +38,6 @@ function SimulatedDevice() {
     firebase.database().ref("/simulatedDevices/status").set(newStatus);
   };
 
- 
   const handleNextToggle = () => {
     const currentIndex = songList.indexOf(currentTrack);
     let nextIndex = currentIndex + 1;
@@ -48,7 +47,7 @@ function SimulatedDevice() {
     const newTrack = songList[nextIndex];
     firebase.database().ref("/simulatedDevices/currentTrack").set(newTrack);
   };
-  
+
   const handlePreviousToggle = () => {
     const currentIndex = songList.indexOf(currentTrack);
     let prevIndex = currentIndex - 1;
@@ -58,8 +57,6 @@ function SimulatedDevice() {
     const newTrack = songList[prevIndex];
     firebase.database().ref("/simulatedDevices/currentTrack").set(newTrack);
   };
-  
-  
 
   const { currentTrack, deviceStatus, songList, status } = SimDevValue;
 
@@ -67,12 +64,11 @@ function SimulatedDevice() {
     <div>
       <h2 className="description"> Simulated device</h2>
       <div className="border">
-        <br />
         <div>
           <img src={simudev} alt="simulated_device" width="160" height="180" />
 
           <h2>Current track: {currentTrack}</h2>
-          
+
           <h3 className="simudev-info">
             Device status:&nbsp;
             <span
