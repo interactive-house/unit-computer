@@ -14,7 +14,6 @@ import {
 
 function SimulatedDevice() {
   const [SimuDevValue, setSimuDevValue] = useState([]);
-  const [isPlaying, setPlayOrPause] = useState(false);
 
   useEffect(() => {
     const Ref = firebase.database().ref("simulatedDevices");
@@ -28,11 +27,10 @@ function SimulatedDevice() {
       Ref.off();
     };
   }, []);
-
+  
   const handlePlayPauseToggle = () => {
     const newStatus = status === "play" ? "pause" : "play";
     firebase.database().ref("/simulatedDevices/status").set(newStatus);
-    setPlayOrPause(!isPlaying);
   };
 
   const { currentTrack, deviceStatus, songList, status } = SimuDevValue;
@@ -66,7 +64,7 @@ function SimulatedDevice() {
             <FontAwesomeIcon icon={faBackward} />
           </button>
           <button className="control-button play" onClick={handlePlayPauseToggle}>
-          <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+          <FontAwesomeIcon icon={status === "play" ? faPause : faPlay} />
           </button>
           <button className="control-button stop">
             <FontAwesomeIcon icon={faStop} />
