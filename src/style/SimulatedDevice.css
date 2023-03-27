@@ -12,7 +12,7 @@
 }
 
 .status-off {
-  color: red;
+  color: rgb(168, 30, 30);
 }
 
 .simudev-player-button {
@@ -24,7 +24,7 @@
 }
 
 .play {
-  background-color: rgb(255, 2, 2);
+  background-color: rgb(168, 30, 30);
 }
 
 .pause {
