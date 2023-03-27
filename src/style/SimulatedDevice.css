@@ -15,18 +15,27 @@
   color: rgb(168, 30, 30);
 }
 
-.simudev-player-button {
-  background-color: #ccc;
-  color: #000000;
-  padding: 10px 20px;
+.player-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   border: none;
-  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-.play {
-  background-color: rgb(168, 30, 30);
+.control-button:hover {
+  transform: scale(1.2);
 }
 
-.pause {
-  background-color: rgb(0, 255, 89);
+svg {
+  font-size: 24px;
+  color: #000;
 }

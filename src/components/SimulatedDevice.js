@@ -3,9 +3,18 @@ import "firebase/database";
 import firebase from "./firebase";
 import simudev from "../media/simudevice.png";
 import "../style/SimulatedDevice.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlay,
+  faPause,
+  faStop,
+  faBackward,
+  faForward,
+} from "@fortawesome/free-solid-svg-icons";
 
 function SimulatedDevice() {
   const [SimuDevValue, setSimuDevValue] = useState([]);
+  const [isPlaying, setPlayOrPause] = useState(false);
 
   useEffect(() => {
     const Ref = firebase.database().ref("simulatedDevices");
@@ -20,9 +29,10 @@ function SimulatedDevice() {
     };
   }, []);
 
-  const handleToggle = () => {
+  const handlePlayPauseToggle = () => {
     const newStatus = status === "play" ? "pause" : "play";
     firebase.database().ref("/simulatedDevices/status").set(newStatus);
+    setPlayOrPause(!isPlaying);
   };
 
   const { currentTrack, deviceStatus, songList, status } = SimuDevValue;
@@ -51,13 +61,18 @@ function SimulatedDevice() {
           </h3>
 
           <h3>Status: {status}</h3>
-          <button
-            className={`simudev-player-button ${
-              status === "play" ? "play" : "pause"
-            }`}
-            onClick={handleToggle}
-          >
-            {status === "play" ? "Pause" : "Play"}
+          
+          <button className="control-button previous">
+            <FontAwesomeIcon icon={faBackward} />
+          </button>
+          <button className="control-button play" onClick={handlePlayPauseToggle}>
+          <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+          </button>
+          <button className="control-button stop">
+            <FontAwesomeIcon icon={faStop} />
+          </button>
+          <button className="control-button next">
+            <FontAwesomeIcon icon={faForward} />
           </button>
         </div>
         <br />
