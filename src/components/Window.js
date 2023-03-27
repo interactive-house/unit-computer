@@ -49,7 +49,7 @@ function Window() {
         />
         {Status && (
           <div>
-            <h3 className="status"> Open </h3>
+            <h3 className="status"> Open</h3>
             <img src={window_open} alt="window_open" width="160" height="130" />
           </div>
         )}
