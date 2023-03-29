@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   faPlay,
-  faPause,
   faStop,
   faBackward,
   faForward,
@@ -61,12 +60,7 @@ function SimulatedDevice() {
     });
   };
   
-  const handlePause = () => {
-    firebase.database().ref("simulatedDevices/action").update({
-      type: "pause",
-      trackId: actionData?.trackId || songList[0]?.trackId
-    });
-  };
+
   
   const handleStop = () => {
     firebase.database().ref("simulatedDevices/action").update({
