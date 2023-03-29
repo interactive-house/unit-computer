@@ -4,6 +4,7 @@ import firebase from "./firebase";
 import simudev from "../media/simudevice.png";
 import "../style/SimulatedDevice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faPlay,
   faPause,
@@ -13,98 +14,165 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function SimulatedDevice() {
-  const [SimDevValue, setSimDevValue] = useState([]);
+  const [actionData, setActionData] = useState(null);
+  const [deviceStatus, setDeviceStatus] = useState(null);
+  const [songList, setSongList] = useState([]);
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    const Ref = firebase.database().ref("simulatedDevices");
+    const dbRef = firebase.database().ref();
+    const actionRef = dbRef.child("simulatedDevices/action");
+    const deviceStatusRef = dbRef.child("simulatedDevices/deviceStatus");
+    const songListRef = dbRef.child("simulatedDevices/songList");
+    const statusRef = dbRef.child("simulatedDevices/status");
 
-    Ref.on("value", (snapshot) => {
-      const value = snapshot.val();
-      setSimDevValue(value);
+    actionRef.on("value", (snapshot) => {
+      setActionData(snapshot.val());
+    });
+
+    deviceStatusRef.on("value", (snapshot) => {
+      setDeviceStatus(snapshot.val());
+    });
+
+    songListRef.on("value", (snapshot) => {
+      const songs = [];
+      snapshot.forEach((childSnapshot) => {
+        songs.push(childSnapshot.val());
+      });
+      setSongList(songs);
+    });
+
+    statusRef.on("value", (snapshot) => {
+      setStatus(snapshot.val());
     });
 
     return () => {
-      Ref.off();
+      actionRef.off();
+      deviceStatusRef.off();
+      songListRef.off();
+      statusRef.off();
     };
   }, []);
 
-  const handlePlayPauseToggle = () => {
-    const newStatus = status === "play" ? "pause" : "play";
-    firebase.database().ref("/simulatedDevices/status").set(newStatus);
+  const handlePlay = () => {
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "play",
+      trackId: actionData?.trackId || songList[0]?.trackId
+    });
   };
-
-  const handleStopToggle = () => {
-    const newStatus = "stop";
-    firebase.database().ref("/simulatedDevices/status").set(newStatus);
+  
+  const handlePause = () => {
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "pause",
+      trackId: actionData?.trackId || songList[0]?.trackId
+    });
   };
-
-  const handleNextToggle = () => {
-    const currentIndex = songList.indexOf(currentTrack);
-    let nextIndex = currentIndex + 1;
-    if (nextIndex >= songList.length) {
-      nextIndex = 1;
-    }
-    const newTrack = songList[nextIndex];
-    firebase.database().ref("/simulatedDevices/currentTrack").set(newTrack);
+  
+  const handleStop = () => {
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "stop",
+      trackId: actionData?.trackId || songList[0]?.trackId
+    });
   };
-
-  const handlePreviousToggle = () => {
-    const currentIndex = songList.indexOf(currentTrack);
-    let prevIndex = currentIndex - 1;
-    if (prevIndex < 1) {
-      prevIndex = songList.length - 1;
-    }
-    const newTrack = songList[prevIndex];
-    firebase.database().ref("/simulatedDevices/currentTrack").set(newTrack);
+  
+  const handlePrev = () => {
+    const currentIndex = songList.findIndex((song) => song.trackId === actionData.trackId);
+    const prevIndex = (currentIndex - 1 + songList.length) % songList.length;
+    const prevTrackId = songList[prevIndex].trackId;
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "prev",
+      trackId: prevTrackId
+    });
   };
+  
+  const handleNext = () => {
+    const currentIndex = songList.findIndex((song) => song.trackId === actionData.trackId);
+    const nextIndex = (currentIndex + 1) % songList.length;
+    const nextTrackId = songList[nextIndex].trackId;
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "next",
+      trackId: nextTrackId
+    });
+  }
+  
 
-  const { currentTrack, deviceStatus, songList, status } = SimDevValue;
+  
+
+
+
+
 
   return (
-    <div>
-      <h2 className="description"> Simulated device</h2>
+    <div className="music-player">
+      <h2 className="description">Simulated device</h2>
       <div className="border">
         <div>
           <img src={simudev} alt="simulated_device" width="160" height="180" />
+  
+          {actionData && (
+            <div>
+              {songList.length > 0 && (
+                <>
+                  {songList.map((song, index) => (
+                    <div key={index}>
+                      {song.trackId === actionData?.trackId && (
+                        <div>
+                          <h2>Current song:</h2>
+                          <p>{song.artist}: {song.song}</p>
+                          <p><strong>Status:</strong> {actionData.type}</p>
+                          <p id="random-id">-----Random id when press next in action not yet implemented-----</p>
 
-          <h2>Current track: {currentTrack}</h2>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
 
-          <h3 className="simudev-info">
-            Device status:&nbsp;
-            <span
-              className={`simudev-status 
-            ${deviceStatus === "on" ? "status-on" : "status-off"}`}
-            >
-              {deviceStatus}
-            </span>
-          </h3>
-
-          <h3>Status: {status}</h3>
-
-          <button
-            className="control-button previous"
-            onClick={handlePreviousToggle}
-          >
-            <FontAwesomeIcon icon={faBackward} />
-          </button>
-          <button
-            className="control-button play"
-            onClick={handlePlayPauseToggle}
-          >
-            <FontAwesomeIcon icon={status === "play" ? faPause : faPlay} />
-          </button>
-          <button className="control-button stop" onClick={handleStopToggle}>
-            <FontAwesomeIcon icon={faStop} />
-          </button>
-          <button className="control-button next" onClick={handleNextToggle}>
-            <FontAwesomeIcon icon={faForward} />
-          </button>
+                  <ul>
+                    {songList.map((song, index) => (
+                      <li key={index}>
+                        <h5>{song.artist}: {song.song}</h5>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                </>
+              )}
+            </div>
+          )}
+  
+          {deviceStatus && (
+            <>
+              <h4>
+                Device Status:{" "}
+                <span className={`status ${deviceStatus === "online" ? "status-on" : "status-off"}`}>
+                  {deviceStatus}
+                </span>
+              </h4>
+            </>
+          )}
+  
+          {status && <p className="status">{status}</p>}
+  
+          <div className="player-controls">
+            <button className="control-button" onClick={handlePrev}>
+              <FontAwesomeIcon icon={faBackward} />
+            </button>
+            <button className="control-button" onClick={handleStop}>
+              <FontAwesomeIcon icon={faStop} />
+            </button>
+            <button className="control-button" onClick={handlePlay}>
+              <FontAwesomeIcon icon={faPlay} />
+            </button>
+            <button className="control-button" onClick={handleNext}>
+              <FontAwesomeIcon icon={faForward} />
+            </button>
+          </div>
         </div>
-        <br />
       </div>
       <br />
     </div>
   );
-}
+          }
 
-export default SimulatedDevice;
+          export default SimulatedDevice;
