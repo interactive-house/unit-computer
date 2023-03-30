@@ -113,13 +113,6 @@ function SimulatedDevice() {
     });
   }
   
-
-  
-
-
-
-
-
   return (
     <div className="music-player">
       <h2 className="description">Simulated device</h2>
@@ -147,12 +140,13 @@ function SimulatedDevice() {
                         <div>
                           <h2>Current song:</h2>
                           <p>{song.artist}: {song.song}</p>
-                          <p><strong>Status:</strong> {actionData.type}</p>
-
                         </div>
+                        
                       )}
+                      
                     </div>
                   ))}
+                  <p><strong>Status:</strong> {actionData.type}</p>
                   <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
 
                   <ul>
