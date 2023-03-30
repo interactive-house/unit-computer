@@ -2,11 +2,16 @@ import { useState, useEffect } from "react";
 import "firebase/database";
 import firebase from "./firebase";
 import simudev from "../media/simudevice.png";
+import songnotes from "../media/songnotes.png";
 import "../style/SimulatedDevice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
+import { v4 as uuidv4 } from 'uuid'; //npm install uuid
+
 import {
   faPlay,
+  faPause,
   faStop,
   faBackward,
   faForward,
@@ -17,6 +22,8 @@ function SimulatedDevice() {
   const [deviceStatus, setDeviceStatus] = useState(null);
   const [songList, setSongList] = useState([]);
   const [status, setStatus] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
 
   useEffect(() => {
     const dbRef = firebase.database().ref();
@@ -58,6 +65,7 @@ function SimulatedDevice() {
       type: "play",
       trackId: actionData?.trackId || songList[0]?.trackId
     });
+    setIsPlaying(true);
   };
   
 
@@ -66,7 +74,18 @@ function SimulatedDevice() {
     firebase.database().ref("simulatedDevices/action").update({
       type: "stop",
       trackId: actionData?.trackId || songList[0]?.trackId
+      
     });
+    setIsPlaying(false);
+  };
+
+  const handlePause = () => {
+    firebase.database().ref("simulatedDevices/action").update({
+      type: "pause",
+      trackId: actionData?.trackId || songList[0]?.trackId
+      
+    });
+    setIsPlaying(false);
   };
   
   const handlePrev = () => {
@@ -83,9 +102,14 @@ function SimulatedDevice() {
     const currentIndex = songList.findIndex((song) => song.trackId === actionData.trackId);
     const nextIndex = (currentIndex + 1) % songList.length;
     const nextTrackId = songList[nextIndex].trackId;
+    const newUUID = uuidv4();
+    console.log(newUUID);
     firebase.database().ref("simulatedDevices/action").update({
+      id: newUUID,
       type: "next",
       trackId: nextTrackId
+
+  
     });
   }
   
@@ -101,7 +125,17 @@ function SimulatedDevice() {
       <h2 className="description">Simulated device</h2>
       <div className="border">
         <div>
-          <img src={simudev} alt="simulated_device" width="160" height="180" />
+        <img src={simudev} alt="simulated_device" width="160" height="180" />
+        {isPlaying && (
+          <img
+            src={songnotes}
+            alt="simulated_device"
+            width="160"
+            height="180"
+            className="flying-notes"
+          />
+          
+        )}
   
           {actionData && (
             <div>
@@ -114,7 +148,6 @@ function SimulatedDevice() {
                           <h2>Current song:</h2>
                           <p>{song.artist}: {song.song}</p>
                           <p><strong>Status:</strong> {actionData.type}</p>
-                          <p id="random-id">-----Random id when press next in action not yet implemented-----</p>
 
                         </div>
                       )}
@@ -158,6 +191,9 @@ function SimulatedDevice() {
             <button className="control-button" onClick={handlePlay}>
               <FontAwesomeIcon icon={faPlay} />
             </button>
+            <button className="control-button" onClick={handlePause}>
+              <FontAwesomeIcon icon={faPause} />
+            </button>
             <button className="control-button" onClick={handleNext}>
               <FontAwesomeIcon icon={faForward} />
             </button>
@@ -167,6 +203,6 @@ function SimulatedDevice() {
       <br />
     </div>
   );
-          }
+}
 
-          export default SimulatedDevice;
+export default SimulatedDevice;
