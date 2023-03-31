@@ -60,16 +60,6 @@ function SimulatedDevice() {
     };
   }, []);
 
-  const handlePlay = () => {
-    firebase.database().ref("simulatedDevices/action").update({
-      type: "play",
-      trackId: actionData?.trackId || songList[0]?.trackId
-    });
-    setIsPlaying(true);
-  };
-  
-
-  
   const handleStop = () => {
     firebase.database().ref("simulatedDevices/action").update({
       type: "stop",
@@ -79,14 +69,17 @@ function SimulatedDevice() {
     setIsPlaying(false);
   };
 
-  const handlePause = () => {
-    firebase.database().ref("simulatedDevices/action").update({
-      type: "pause",
-      trackId: actionData?.trackId || songList[0]?.trackId
-      
-    });
-    setIsPlaying(false);
+
+
+  const handlePlayPauseToggle = () => {
+    const { type } = actionData || {};
+    const newStatus = type === "play" ? "pause" : "play";
+    firebase.database().ref("/simulatedDevices/action/type").set(newStatus);
+    setIsPlaying(newStatus === "play");
   };
+  
+
+  
   
   const handlePrev = () => {
     const currentIndex = songList.findIndex((song) => song.trackId === actionData.trackId);
@@ -112,6 +105,8 @@ function SimulatedDevice() {
   
     });
   }
+
+
   
   return (
     <div className="music-player">
@@ -150,11 +145,20 @@ function SimulatedDevice() {
                   <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
 
                   <ul>
-                    {songList.map((song, index) => (
-                      <li key={index}>
-                        <h5>{song.artist}: {song.song}</h5>
-                      </li>
-                    ))}
+                  {songList.map((song, index) => (
+                <li key={index}>
+                  <h5 onClick={() => {
+                    const newUUID = uuidv4();
+                    firebase.database().ref("simulatedDevices/action").update({
+                      id: newUUID,
+                      type: "next",
+                      trackId: song.trackId
+                    });
+                    setIsPlaying(true);
+                  }}>{song.artist}: {song.song}</h5>
+                </li>
+              ))}
+
                   </ul>
                   
                 </>
@@ -179,15 +183,13 @@ function SimulatedDevice() {
             <button className="control-button" onClick={handlePrev}>
               <FontAwesomeIcon icon={faBackward} />
             </button>
+            <button className="control-button" onClick={handlePlayPauseToggle}>
+            <FontAwesomeIcon icon={actionData?.type === "play" ? faPause : faPlay} />
+            </button>
             <button className="control-button" onClick={handleStop}>
               <FontAwesomeIcon icon={faStop} />
             </button>
-            <button className="control-button" onClick={handlePlay}>
-              <FontAwesomeIcon icon={faPlay} />
-            </button>
-            <button className="control-button" onClick={handlePause}>
-              <FontAwesomeIcon icon={faPause} />
-            </button>
+
             <button className="control-button" onClick={handleNext}>
               <FontAwesomeIcon icon={faForward} />
             </button>
