@@ -23,12 +23,12 @@ function Soil() {
   return (
     <div className="center">
       <h2 className="description">Soil</h2>
-      <div className="border">
+      <div className={`Status ${status === "perfect" ? "borderOn" : status === "dry" ? "borderDry" : "borderWet"}`}>
         <br />
         {status.toUpperCase() === "WET" && (
           <div>
             <h3 className="statussoil">Wet</h3>
-            <img src={soil_wet} alt="soil_wet" width="130" height="130" />
+            <img src={soil_wet} alt="soil_wet" width="190" height="190" />
           </div>
         )}
         {status.toUpperCase() === "DRY" && (
@@ -36,7 +36,7 @@ function Soil() {
             <h3 className="status" style={{ color: "#b2996e" }}>
               Dry
             </h3>
-            <img src={soil_dry} alt="soil_dry" width="130" height="130" />
+            <img src={soil_dry} alt="soil_dry" width="190" height="190" />
           </div>
         )}
         {status.toUpperCase() === "PERFECT" && (
@@ -44,7 +44,7 @@ function Soil() {
             <h3 className="status" style={{ color: "#90ee90" }}>
               Perfect
             </h3>
-            <img src={soil_perfect} alt="soil_perfect" width="130" height="130" />
+            <img src={soil_perfect} alt="soil_perfect" width="190" height="190" />
           </div>
         )}
         <br />

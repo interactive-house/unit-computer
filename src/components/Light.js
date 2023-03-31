@@ -31,7 +31,7 @@ function Light() {
     <div className="center">
       <h2 className="description">Light</h2>
       <div />
-      <div className="border">
+      <div className={`Status ${Status === false ? "border" : "borderOn"}`}>
         <br />
         <ReactSwitch
           checked={Status}
@@ -50,7 +50,7 @@ function Light() {
         {Status && (
           <div>
             <h3 className="status"> On </h3>
-            <img src={light_on} alt="light_on" width="80" height="100" />
+            <img src={light_on} alt="light_on" width="140" height="180" />
           </div>
         )}
         {!Status && (
@@ -59,7 +59,7 @@ function Light() {
               {" "}
               Off{" "}
             </h3>
-            <img src={light_off} alt="light_off" width="80" height="100" />
+            <img src={light_off} alt="light_off" width="140" height="180" />
           </div>
         )}
       </div>

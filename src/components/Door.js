@@ -31,7 +31,7 @@ function Door() {
     <div className="center">
       <h2 className="description">Door</h2>
       <div />
-      <div className="border">
+      <div className={`Status ${Status === false ? "border" : "borderOn"}`}>
         <br />
         <ReactSwitch
           checked={Status}
@@ -50,7 +50,7 @@ function Door() {
         {Status && (
           <div>
             <h3 className="status"> Open </h3>
-            <img src={door_open} alt="door_open" width="80" height="150" />
+            <img src={door_open} alt="door_open" width="120" height="225" />
           </div>
         )}
         {!Status && (
@@ -59,7 +59,7 @@ function Door() {
               {" "}
               Closed{" "}
             </h3>
-            <img src={door_closed} alt="door_closed" width="80" height="150" />
+            <img src={door_closed} alt="door_closed" width="120" height="225" />
           </div>
         )}
       </div>

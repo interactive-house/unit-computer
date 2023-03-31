@@ -11,29 +11,13 @@ function Home() {
     <div className="center">
       <Navbar />
 
-      <table className="table">
-        <tr>
-          <td>
-            <div class="centered-container">
-              <div class="centered-component">
-                <Light />
-              </div>
-              <div class="centered-component">
-                <Door />
-              </div>
-              <div class="centered-component">
-                <Window />
-              </div>
-              <div class="centered-component">
-                <SimulatedDevice />
-              </div>
-              <div class="centered-component">
-                <Soil />
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div className="flex">
+        <Light />
+        <Door />
+        <Window />
+        <SimulatedDevice />
+        <Soil />
+      </div>
 
       <br />
     </div>
