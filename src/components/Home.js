@@ -8,13 +8,33 @@ import Navbar from "./NavBar";
 
 function Home() {
   return (
-    <div>
+    <div className="center">
       <Navbar />
-      <Light />
-      <Door />
-      <Window />
-      <SimulatedDevice />
-      <Soil />
+
+      <table className="table">
+        <tr>
+          <td>
+            <div class="centered-container">
+              <div class="centered-component">
+                <Light />
+              </div>
+              <div class="centered-component">
+                <Door />
+              </div>
+              <div class="centered-component">
+                <Window />
+              </div>
+              <div class="centered-component">
+                <SimulatedDevice />
+              </div>
+              <div class="centered-component">
+                <Soil />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
       <br />
     </div>
   );

@@ -4,15 +4,16 @@
 }
 
 .status {
-  color: rgb(0, 255, 89);
+  text-align: center;
+  font-size: 1.2rem;
 }
 
 .status-on {
-  color: rgb(0, 255, 89);
+  color: green;
 }
 
 .status-off {
-  color: rgb(168, 30, 30);
+  color: red;
 }
 
 .player-controls {
@@ -34,8 +35,115 @@
 .control-button:hover {
   transform: scale(1.2);
 }
+.control-button {
+  margin-right: 10px;
+}
+
 
 svg {
   font-size: 24px;
   color: #000;
 }
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+
+
+.border {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.control-button {
+  margin: 0 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.description {
+  text-align: center;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.status-on {
+  color: green;
+}
+
+.status-off {
+  color: red;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+img {
+  margin-bottom: 20px;
+}
+
+.hr-green {
+  border: 1px solid green;
+}
+
+.hr-red {
+  border: 1px solid red;
+}
+
+
+.flying-notes {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation-name: fly;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+
+
+@keyframes fly {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, -80px);
+  }
+}
+
+
+
+
