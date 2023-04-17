@@ -82,7 +82,9 @@ function SimulatedDevice() {
     );
     const prevIndex = (currentIndex - 1 + songList.length) % songList.length;
     const prevTrackId = songList[prevIndex].trackId;
+    const newUUID = uuidv4();
     firebase.database().ref("simulatedDevices/action").update({
+      id: newUUID,
       type: "prev",
       trackId: prevTrackId,
     });
