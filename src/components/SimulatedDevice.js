@@ -31,7 +31,16 @@ function SimulatedDevice() {
     const statusRef = dbRef.child("simulatedDevices/status");
 
     actionRef.on("value", (snapshot) => {
-      setActionData(snapshot.val());
+      const actionData = snapshot.val();
+      setActionData(actionData);
+      if (actionData.type === "play" || actionData.type === "next" || actionData.type === "prev") {
+        setIsPlaying(true);
+      } else {
+        setIsPlaying(false);
+      }
+      
+
+
     });
 
     deviceStatusRef.on("value", (snapshot) => {
@@ -88,7 +97,6 @@ function SimulatedDevice() {
       type: "prev",
       trackId: prevTrackId,
     });
-    setIsPlaying(true);
   };
 
   const handleNext = () => {
@@ -104,7 +112,6 @@ function SimulatedDevice() {
       type: "next",
       trackId: nextTrackId,
     });
-    setIsPlaying(true);
   };
 
   return (
