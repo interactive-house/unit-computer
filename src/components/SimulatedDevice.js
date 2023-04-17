@@ -88,6 +88,7 @@ function SimulatedDevice() {
       type: "prev",
       trackId: prevTrackId,
     });
+    setIsPlaying(true);
   };
 
   const handleNext = () => {
@@ -103,6 +104,7 @@ function SimulatedDevice() {
       type: "next",
       trackId: nextTrackId,
     });
+    setIsPlaying(true);
   };
 
   return (
@@ -196,7 +198,7 @@ function SimulatedDevice() {
             </button>
             <button className="control-button" onClick={handlePlayPauseToggle}>
               <FontAwesomeIcon
-                icon={actionData?.type === "play" ? faPause : faPlay}
+                icon={isPlaying ? faPause : faPlay}
               />
             </button>
             <button className="control-button" onClick={handleStop}>
