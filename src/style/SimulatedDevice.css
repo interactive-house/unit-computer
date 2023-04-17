@@ -55,8 +55,6 @@ li {
   margin-bottom: 10px;
 }
 
-
-
 .border {
   border: 1px solid rgb(0, 0, 0);
   padding: 20px;
@@ -92,7 +90,7 @@ li {
 }
 
 .status-on {
-  color: green;
+  color: rgb(0, 255, 89);
 }
 
 .status-off {
@@ -144,6 +142,6 @@ img {
   }
 }
 
-
-
-
+h2, h4, h5, p {
+  color: #000;
+}

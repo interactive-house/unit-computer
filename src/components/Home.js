@@ -8,13 +8,17 @@ import Navbar from "./NavBar";
 
 function Home() {
   return (
-    <div>
+    <div className="center">
       <Navbar />
-      <Light />
-      <Door />
-      <Window />
-      <SimulatedDevice />
-      <Soil />
+
+      <div className="flex">
+        <Light />
+        <Door />
+        <Window />
+        <SimulatedDevice />
+        <Soil />
+      </div>
+
       <br />
     </div>
   );
