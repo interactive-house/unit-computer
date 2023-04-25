@@ -22,8 +22,9 @@ function Admin() {
 
   const handleLogin = () => {
     // Write code here to add the new user
-    alert("Account created successfully" + username + password + validationCode);
-
+    alert(
+      "Account created successfully" + username + password + validationCode
+    );
   };
 
   return (

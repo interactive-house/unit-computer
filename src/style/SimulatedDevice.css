@@ -39,7 +39,6 @@
   margin-right: 10px;
 }
 
-
 svg {
   font-size: 24px;
   color: #000;
@@ -119,7 +118,6 @@ img {
   border: 1px solid red;
 }
 
-
 .flying-notes {
   position: absolute;
   width: 50px;
@@ -131,8 +129,6 @@ img {
   animation-iteration-count: infinite;
 }
 
-
-
 @keyframes fly {
   0% {
     transform: translate(0, 0);
@@ -142,6 +138,9 @@ img {
   }
 }
 
-h2, h4, h5, p {
+h2,
+h4,
+h5,
+p {
   color: #000;
 }

@@ -1,4 +1,47 @@
 .center {
-    text-align: center;
-    color: rgb(0, 255, 89);
+  text-align: center;
+  color: rgb(0, 255, 89);
+}
+.center {
+  text-align: center;
+  color: rgb(0, 255, 89);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+nav ul li {
+  padding: 0 30px;
+  padding-top: 5px;
+  float: right;
+}
+nav ul li a {
+  display: inline-block;
+  padding: 12px;
+  color: #02232e;
+  font-weight: bold;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+nav ul li a:hover,
+nav ul li a:focus {
+  color: rgb(248, 74, 0);
+}
+
+@media (min-width: 500px) {
+  nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  nav ul {
+    max-height: 70px;
+    padding: 15px 0;
+    text-align: left;
+  }
 }
