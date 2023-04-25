@@ -2,21 +2,17 @@
   text-align: center;
   color: rgb(0, 255, 89);
 }
-.center {
-  text-align: center;
-  color: rgb(0, 255, 89);
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
+nav ul li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
 
 nav ul li {
   padding: 0 30px;
-  padding-top: 5px;
+  padding-top: 33px;
   float: right;
 }
 nav ul li a {
