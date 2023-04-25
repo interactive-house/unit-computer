@@ -9,12 +9,14 @@ import {
 
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Admin from "./components/Admin";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
+          <Route path="/admin" element={<Admin />} />
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Login />} />
 
