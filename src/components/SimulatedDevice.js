@@ -166,7 +166,7 @@ function SimulatedDevice() {
                               .ref("simulatedDevices/action")
                               .update({
                                 id: newUUID,
-                                type: "next",
+                                type: "play",
                                 trackId: song.trackId,
                               });
                             setIsPlaying(true);
