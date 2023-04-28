@@ -1,29 +1,29 @@
-import { useNavigate } from "react-router";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
 import Navbar from "./NavBar";
 
 function Login() {
-  const usernameDb = "admin";
-  const passwordDb = "admin";
-
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [wrongPassword, setWrongPassword] = useState(false); 
 
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleLogin = () => {
-    if (username === usernameDb && password === passwordDb) {
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+      // If login is successful, navigate to "/home"
       navigate("/home");
-    } else {
-      alert("Wrong username or password");
+    } catch (error) {
+      console.log(error.message);
+      setWrongPassword(true); // Set wrongPassword state to true on login error
     }
   };
 
@@ -32,40 +32,46 @@ function Login() {
       <Navbar />
       <h1 className="loginDescription">Sign In</h1>
       <div className="login">
-        <form onSubmit={handleLogin}>
-          <label>
-            <br></br>
-            <br></br>
-            <p className="text">Username</p>
-            <input
-              type="text"
-              value={username}
-              className="input"
-              placeholder="Username"
-              onChange={handleUsername}
-            />
-          </label>
-          <label>
-            <p className="text">Password</p>
-            <input
-              type="password"
-              value={password}
-              className="input"
-              placeholder="Password"
-              onChange={handlePassword}
-            />
-          </label>
-          <div>
-            {" "}
-            <br></br>
-            <button className="loginButton" type="submit">
-              Login
-            </button>
-          </div>
-        </form>
-        <br></br>
-        <br></br>
-        <br></br>
+        <label>
+          <br />
+          <br />
+          <p className="text">Email</p>
+          <input 
+            type="email"
+            placeholder="Email"
+            value={loginEmail}
+            onChange={(event) => {
+              setLoginEmail(event.target.value);
+            }}
+            style={{ width: "220px", height: "25px" }}
+          />
+        </label>
+        <label>
+          <p className="text">Password</p>
+          <input 
+            type="password"
+            placeholder="Password"
+            value={loginPassword}
+            onChange={(event) => {
+              setLoginPassword(event.target.value);
+              setWrongPassword(false);
+            }}
+            style={{ width: "220px", height: "25px" }}
+            
+          />
+        </label>
+        {wrongPassword && (
+          <p style={{ color: "red" }}>Incorrect password or ivalid email</p>
+        )}
+        <div>
+          <br />
+          <button className="loginButton" type="button" onClick={login}>
+            Login
+          </button>
+        </div>
+        <br />
+        <br />
+        <br />
       </div>
     </div>
   );

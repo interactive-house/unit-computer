@@ -18,7 +18,7 @@
   border-radius: 4px;
   background-color: rgba(0, 255, 89, 0.636);
   border: none;
-  color: #ffffff;
+  color: #000000;
   text-align: center;
   font-size: 18px;
   padding: 10px;
@@ -33,18 +33,20 @@
 }
 
 .input {
-  padding: 5px;
-  border-radius: 8px;
-  border: 3px solid #0be0b5;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
   font-size: 16px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .input:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 5px #3498db;
+  border-color: #0be0b5;
+  box-shadow: 0 0 5px #0be0b5;
 }
+
 
 .text {
   font-size: 18px;

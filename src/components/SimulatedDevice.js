@@ -94,7 +94,7 @@ function SimulatedDevice() {
     const newUUID = uuidv4();
     firebase.database().ref("simulatedDevices/action").update({
       id: newUUID,
-      type: "prev",
+      type: "play",
       trackId: prevTrackId,
     });
   };
@@ -109,7 +109,7 @@ function SimulatedDevice() {
     console.log(newUUID);
     firebase.database().ref("simulatedDevices/action").update({
       id: newUUID,
-      type: "next",
+      type: "play",
       trackId: nextTrackId,
     });
   };
