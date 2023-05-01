@@ -7,6 +7,7 @@ import { auth } from "./firebase";
 function Navbar() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     const handlePopstate = () => {
@@ -38,7 +39,10 @@ function Navbar() {
     }
   };
 
-  
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   return (
     <div className="center">
       <br />
@@ -53,11 +57,28 @@ function Navbar() {
           )}
         </ul>
       </nav>
+  
+      <div className="popup-container">
+        <div className="open-popup-button-container">
+        <button className="open-popup-button" onClick={togglePopup}>GET STARTED</button>
+
+        </div>
+        {isPopupOpen && (
+          <div className="overlay">
+            <div className="popup">
+              <button className="close-button" onClick={togglePopup}>
+                X
+              </button>
+              <h2>Get started.</h2>
+              <p>hello hello hello hello hello hello hello hello hello hello hello hello hello</p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
+  
+  
 }
 
 export default Navbar;
-
-
-
