@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import Navbar from "./NavBar";
 
+
 function Login() {
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false); 
+
+  useEffect(() => {
+    auth.signOut();
+  }, []);
 
   const login = async () => {
     try {
