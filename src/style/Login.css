@@ -3,14 +3,19 @@
   margin-left: 1%;
   margin-right: 1%;
   border: 1px solid black;
-  text-align: center;
   box-shadow: 5px 10px 8px 10px #030304;
 }
 
 .loginDescription {
-  color: rgb(214, 228, 231);
+  color: rgb(75, 238, 94);
   text-align: center;
   margin-top: 5%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .loginButton {
@@ -25,7 +30,7 @@
   width: 120px;
   transition: all 0.3s;
   cursor: pointer;
-  margin: 5px;
+  margin-top: 30px;
 }
 
 .loginButton:hover {
@@ -35,21 +40,22 @@
 .input {
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  box-shadow: 5px 10px 8px 10px rgb(0, 255, 89);
   font-size: 16px;
   box-sizing: border-box;
-  width: 100%;
+  width: 300px;
 }
 
 .input:focus {
   outline: none;
-  border-color: #0be0b5;
-  box-shadow: 0 0 5px #0be0b5;
+  border-color: rgb(0, 0, 0);
+  border-width: 2px;
+  box-shadow: 5px 10px 8px 10px rgb(0, 0, 0);
 }
-
 
 .text {
   font-size: 18px;
   font-weight: bold;
   color: #000000d9;
+  margin-top: 50px;
 }

@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import Navbar from "./NavBar";
 
-
 function Login() {
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [wrongPassword, setWrongPassword] = useState(false); 
-
-  useEffect(() => {
-    auth.signOut();
-  }, []);
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   const login = async () => {
     try {
@@ -24,11 +19,10 @@ function Login() {
         loginPassword
       );
       console.log(user);
-      // If login is successful, navigate to "/home"
       navigate("/home");
     } catch (error) {
       console.log(error.message);
-      setWrongPassword(true); // Set wrongPassword state to true on login error
+      setWrongPassword(true);
     }
   };
 
@@ -48,7 +42,7 @@ function Login() {
             onChange={(event) => {
               setLoginEmail(event.target.value);
             }}
-            style={{ width: "220px", height: "25px" }}
+            className="input" // add the input class here
           />
         </label>
         <label>
@@ -61,12 +55,11 @@ function Login() {
               setLoginPassword(event.target.value);
               setWrongPassword(false);
             }}
-            style={{ width: "220px", height: "25px" }}
-            
+            className="input" // add the input class here
           />
         </label>
         {wrongPassword && (
-          <p style={{ color: "red" }}>Incorrect password or ivalid email</p>
+          <p style={{ color: "red" }}>Incorrect password or invalid email</p>
         )}
         <div>
           <br />
@@ -74,7 +67,6 @@ function Login() {
             Login
           </button>
         </div>
-        <br />
         <br />
         <br />
       </div>

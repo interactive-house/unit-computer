@@ -69,16 +69,31 @@ function Navbar() {
               <button className="close-button" onClick={togglePopup}>
                 X
               </button>
-              <h2>Get started.</h2>
-              <p>hello hello hello hello hello hello hello hello hello hello hello hello hello</p>
+              {currentUser ? (
+                  <>
+                    <h4>Welcome, {currentUser.email}!</h4>
+                    <p>Here you can controll the smart home!</p>
+                    <h4>How it works:</h4>
+                    <p>You controll the each compontens by pressing the buttons. The press will activate/deactivate the correspondig compontens.</p>
+
+                  </>
+                ) : (
+                  <>
+                    <h4>Get started.</h4>
+                    <h4>Already have an account:</h4>
+                    <p>Sign in.</p>
+                    <h4>No account:</h4>
+                    <p>Contact the admin for a validation code.</p>
+                  </>
+                )}
+                 
+              
             </div>
           </div>
         )}
       </div>
     </div>
   );
-  
-  
 }
 
 export default Navbar;
