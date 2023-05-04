@@ -1,15 +1,29 @@
-import { useNavigate } from "react-router";
 import React, { useState } from "react";
 import "../style/Login.css";
 import Navbar from "./NavBar";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import firebase from "./firebase";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [validationCode, setValidationCode] = useState("");
   const [password, setPassword] = useState("");
+  const [dbValidationCode, setDbValidationCode] = useState("");
+
+  useEffect(() => {
+    const Ref = firebase.database().ref("ValidationCode");
+    Ref.on("value", (snapshot) => {
+      const data = snapshot.val();
+      setDbValidationCode(data);
+    });
+  }, []);
 
   const handleUsername = (event) => {
-    setUsername(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handleValidationCode = (event) => {
@@ -20,11 +34,21 @@ function Admin() {
     setPassword(event.target.value);
   };
 
-  const handleLogin = () => {
-    // Write code here to add the new user
-    alert(
-      "Account created successfully" + username + password + validationCode
-    );
+  const handleNewAccount = async () => {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        navigate("/home");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        
+        // ..
+      });
   };
 
   return (
@@ -32,16 +56,15 @@ function Admin() {
       <Navbar />
       <h1 className="loginDescription">Create account</h1>
       <div className="login">
-        <form onSubmit={handleLogin}>
           <label>
             <br></br>
             <br></br>
             <p className="text">Username</p>
             <input
               type="text"
-              value={username}
+              value={email}
               className="input"
-              placeholder="Username"
+              placeholder="Email"
               onChange={handleUsername}
             />
           </label>
@@ -68,13 +91,18 @@ function Admin() {
           <div>
             {" "}
             <br></br>
-            <button className="loginButton" type="submit">
+            <button className="loginButton" onClick={handleNewAccount}>
               Create Account
             </button>
+            <br></br>
+            <br></br>
+            <a href="/">
+              Already have an account?
+              <br />
+              Sign in here!
+            </a>
           </div>
-        </form>
-        <br></br>
-        <br></br>
+
         <br></br>
       </div>
     </div>

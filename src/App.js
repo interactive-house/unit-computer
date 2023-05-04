@@ -104,7 +104,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/register" element={<Admin />} />
           <Route
             path="/home"
             element={<Home onActivity={handleUserActivity} />}

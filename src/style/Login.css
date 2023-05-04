@@ -9,7 +9,7 @@
 .loginDescription {
   color: rgb(75, 238, 94);
   text-align: center;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .container {
@@ -27,7 +27,7 @@
   text-align: center;
   font-size: 18px;
   padding: 10px;
-  width: 120px;
+  width: 150px;
   transition: all 0.3s;
   cursor: pointer;
   margin-top: 30px;
@@ -57,5 +57,5 @@
   font-size: 18px;
   font-weight: bold;
   color: #000000d9;
-  margin-top: 50px;
+  margin-top: 15px;
 }
