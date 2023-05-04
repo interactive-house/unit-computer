@@ -42,7 +42,7 @@ function Login() {
             onChange={(event) => {
               setLoginEmail(event.target.value);
             }}
-            className="input" // add the input class here
+            className="input" 
           />
         </label>
         <label>
@@ -55,7 +55,7 @@ function Login() {
               setLoginPassword(event.target.value);
               setWrongPassword(false);
             }}
-            className="input" // add the input class here
+            className="input" 
           />
         </label>
         {wrongPassword && (
