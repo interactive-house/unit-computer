@@ -104,8 +104,8 @@ function SimulatedDevice() {
     const prevSong = songList[prevIndex];
     const prevTrackId = prevSong.trackId;
     const newUUID = uuidv4();
-    const artistName = `${prevSong.artist}`;
-    const trackName = `${prevSong.track}`;
+    const prevname = `${prevSong.artist}`;
+    const prevtrack = `${prevSong.track}`;
   
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
@@ -113,8 +113,8 @@ function SimulatedDevice() {
     });
   
     firebase.database().ref("/simulatedDevices/playerState/currentTrack").update({
-      artist: artistName,
-      track: trackName,
+      artist: prevname,
+      track: prevtrack,
       trackId: prevTrackId,
     });
   };
