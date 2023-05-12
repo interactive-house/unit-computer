@@ -35,19 +35,19 @@ function Login() {
           <br />
           <br />
           <p className="text">Email</p>
-          <input 
+          <input
             type="email"
             placeholder="Email"
             value={loginEmail}
             onChange={(event) => {
               setLoginEmail(event.target.value);
             }}
-            className="input" 
+            className="input"
           />
         </label>
         <label>
           <p className="text">Password</p>
-          <input 
+          <input
             type="password"
             placeholder="Password"
             value={loginPassword}
@@ -55,7 +55,7 @@ function Login() {
               setLoginPassword(event.target.value);
               setWrongPassword(false);
             }}
-            className="input" 
+            className="input"
           />
         </label>
         {wrongPassword && (
@@ -68,11 +68,13 @@ function Login() {
           </button>
           <br />
           <br />
-          <a href="/register">No account?<br />
-          Register here!</a>
+          <a href="/register">
+            No account?
+            <br />
+            Register here!
+          </a>
         </div>
         <br />
-
       </div>
     </div>
   );

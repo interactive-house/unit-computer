@@ -37,15 +37,15 @@ function Admin() {
   const handleNewAccount = async () => {
     const auth = getAuth();
     if (validationCode === dbValidationCode) {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigate("/home");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        alert(errorCode);
-      });
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          navigate("/home");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          alert(errorCode);
+        });
     } else {
       alert("Validation code is incorrect");
     }
@@ -56,52 +56,52 @@ function Admin() {
       <Navbar />
       <h1 className="loginDescription">Create account</h1>
       <div className="login">
-          <label>
-            <br></br>
-            <br></br>
-            <p className="text">Username</p>
-            <input
-              type="text"
-              value={email}
-              className="input"
-              placeholder="Email"
-              onChange={handleUsername}
-            />
-          </label>
-          <label>
-            <p className="text">Password</p>
-            <input
-              type="text"
-              value={password}
-              className="input"
-              placeholder="Password"
-              onChange={handlePassword}
-            />
-          </label>
-          <label>
-            <p className="text">Validation code</p>
-            <input
-              type="password"
-              value={validationCode}
-              className="input"
-              placeholder="Validation code"
-              onChange={handleValidationCode}
-            />
-          </label>
-          <div>
-            {" "}
-            <br></br>
-            <button className="loginButton" onClick={handleNewAccount}>
-              Create Account
-            </button>
-            <br></br>
-            <br></br>
-            <a href="/">
-              Already have an account?
-              <br />
-              Sign in here!
-            </a>
-          </div>
+        <label>
+          <br></br>
+          <br></br>
+          <p className="text">Username</p>
+          <input
+            type="text"
+            value={email}
+            className="input"
+            placeholder="Email"
+            onChange={handleUsername}
+          />
+        </label>
+        <label>
+          <p className="text">Password</p>
+          <input
+            type="text"
+            value={password}
+            className="input"
+            placeholder="Password"
+            onChange={handlePassword}
+          />
+        </label>
+        <label>
+          <p className="text">Validation code</p>
+          <input
+            type="password"
+            value={validationCode}
+            className="input"
+            placeholder="Validation code"
+            onChange={handleValidationCode}
+          />
+        </label>
+        <div>
+          {" "}
+          <br></br>
+          <button className="loginButton" onClick={handleNewAccount}>
+            Create Account
+          </button>
+          <br></br>
+          <br></br>
+          <a href="/">
+            Already have an account?
+            <br />
+            Sign in here!
+          </a>
+        </div>
 
         <br></br>
       </div>

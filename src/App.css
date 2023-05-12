@@ -1,5 +1,6 @@
 html {
   background-color: #708090;
+  zoom: 0.95;
 }
 
 .App {
@@ -43,5 +44,5 @@ html {
 
 .center {
   text-align: center;
-  color: red
+  color: red;
 }
