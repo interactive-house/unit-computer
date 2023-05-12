@@ -36,19 +36,19 @@ function Admin() {
 
   const handleNewAccount = async () => {
     const auth = getAuth();
+    if (validationCode === dbValidationCode) {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
         const user = userCredential.user;
         navigate("/home");
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        
-        // ..
+        alert(errorCode);
       });
+    } else {
+      alert("Validation code is incorrect");
+    }
   };
 
   return (
