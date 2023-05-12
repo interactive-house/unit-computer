@@ -23,7 +23,15 @@ function Soil() {
   return (
     <div className="center">
       <h2 className="description">Soil</h2>
-      <div className={`Status ${status === "perfect" ? "borderOn" : status === "dry" ? "borderDry" : "borderWet"}`}>
+      <div
+        className={`Status ${
+          status === "perfect"
+            ? "borderOn"
+            : status === "dry"
+            ? "borderDry"
+            : "borderWet"
+        }`}
+      >
         <br />
         {status.toLowerCase() === "wet" && (
           <div>
@@ -44,7 +52,12 @@ function Soil() {
             <h3 className="status" style={{ color: "#90ee90" }}>
               Perfect
             </h3>
-            <img src={soil_perfect} alt="soil_perfect" width="190" height="190" />
+            <img
+              src={soil_perfect}
+              alt="soil_perfect"
+              width="190"
+              height="190"
+            />
           </div>
         )}
         <br />

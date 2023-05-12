@@ -18,7 +18,6 @@ function App() {
   const [trackedActivity, setTrackedActivity] = useState(false);
 
   useEffect(() => {
-    
     const logUserActivity = (event) => {
       //console.log(`User ${event.type} at ${new Date()}`);
       setUserActive(true);
@@ -54,43 +53,38 @@ function App() {
         console.log("User is not logged in");
         setLoggedIn(false);
       }
-  
     });
   }, []);
-  
 
   useEffect(() => {
-    
     let timerId = null;
-    if (loggedIn) { 
-    if (!userActive) {
-      if (!trackedActivity) {
-        //console.log("User is active.");
-      } 
- 
-
-      
-      timerId = setTimeout(() => {
-        const currentTime = new Date();
-        const diffInSeconds = (currentTime - lastActivity) / 1000;
-
-        if (diffInSeconds > 150000000) {
-          console.log("User has been inactive for 15 seconds.");
-          const auth = getAuth();
-          signOut(auth).then(() => {
-            // Redirect the user to the login page
-            window.location.href = "/login";
-            // Show an alert to notify the user that they have been logged out
-            alert("You will be logged out due to inactivity.");
-          });
+    if (loggedIn) {
+      if (!userActive) {
+        if (!trackedActivity) {
+          //console.log("User is active.");
         }
-      }, 15000);
-    } else {
-      setLastActivity(new Date());
-      setUserActive(false);
-      setTrackedActivity(false);
+
+        timerId = setTimeout(() => {
+          const currentTime = new Date();
+          const diffInSeconds = (currentTime - lastActivity) / 1000;
+
+          if (diffInSeconds > 15) {
+            console.log("User has been inactive for 15 seconds.");
+            const auth = getAuth();
+            signOut(auth).then(() => {
+              // Redirect the user to the login page
+              window.location.href = "/login";
+              // Show an alert to notify the user that they have been logged out
+              alert("You will be logged out due to inactivity.");
+            });
+          }
+        }, 15000);
+      } else {
+        setLastActivity(new Date());
+        setUserActive(false);
+        setTrackedActivity(false);
+      }
     }
-  }
     return () => clearTimeout(timerId);
   }, [lastActivity, userActive, trackedActivity, loggedIn]);
 
@@ -109,17 +103,14 @@ function App() {
             path="/home"
             element={<Home onActivity={handleUserActivity} />}
           />
-          <Route
-            path="/"
-            element={<Login onActivity={handleUserActivity} />}
-          />
-  
+          <Route path="/" element={<Login onActivity={handleUserActivity} />} />
+
           {/*If path is not found, redirect to Home*/}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </>
   );
-  }
+}
 
-  export default App;
+export default App;

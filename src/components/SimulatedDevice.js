@@ -29,21 +29,24 @@ function SimulatedDevice() {
     const deviceStatusRef = dbRef.child("simulatedDevices/deviceStatus");
     const songListRef = dbRef.child("simulatedDevices/songList");
     const statusRef = dbRef.child("/simulatedDevices/playerState/state/state");
-  
+
     actionRef.on("value", (snapshot) => {
       const actionData = snapshot.val();
       setActionData(actionData);
-      if (actionData.type.toLowerCase() === "next" || actionData.type.toLowerCase() === "prev") {
+      if (
+        actionData.type.toLowerCase() === "next" ||
+        actionData.type.toLowerCase() === "prev"
+      ) {
         setIsPlaying(true);
       } else {
         setIsPlaying(false);
       }
     });
-  
+
     deviceStatusRef.on("value", (snapshot) => {
       setDeviceStatus(snapshot.val().toLowerCase());
     });
-  
+
     songListRef.on("value", (snapshot) => {
       const songs = [];
       snapshot.forEach((childSnapshot) => {
@@ -57,11 +60,11 @@ function SimulatedDevice() {
       });
       setSongList(songs);
     });
-  
+
     statusRef.on("value", (snapshot) => {
       setStatus(snapshot.val().toLowerCase());
     });
-  
+
     return () => {
       actionRef.off();
       deviceStatusRef.off();
@@ -69,30 +72,31 @@ function SimulatedDevice() {
       statusRef.off();
     };
   }, []);
-  
 
   const handleStop = () => {
     const newUUID = uuidv4();
+    firebase.database().ref("/simulatedDevices/playerState/state").update({
+      state: "stopped",
+    });
+    setIsPlaying(false);
+
     firebase
       .database()
-      .ref("/simulatedDevices/playerState/state")
+      .ref("/simulatedDevices/playerState/currentTrack")
       .update({
-        state: "stopped",
+        artist: "test",
+        track: "test",
+        trackId: "78c5d099-f70b-462e-85a4-c33fb4960675",
       });
-    setIsPlaying(false);
-  
-    firebase.database().ref("/simulatedDevices/playerState/currentTrack").update({
-      artist: "test",
-      track: "test",
-      trackId: "78c5d099-f70b-462e-85a4-c33fb4960675",
-    });
   };
-  
 
   const handlePlayPauseToggle = () => {
     const { state } = actionData || {};
     const newStatus = state === "playing" ? "paused" : "playing";
-    firebase.database().ref("/simulatedDevices/playerState/state/state").set(newStatus);
+    firebase
+      .database()
+      .ref("/simulatedDevices/playerState/state/state")
+      .set(newStatus);
     setIsPlaying(newStatus === "playing");
   };
 
@@ -106,23 +110,26 @@ function SimulatedDevice() {
     const newUUID = uuidv4();
     const prevname = `${prevSong.artist}`;
     const prevtrack = `${prevSong.track}`;
-  
+
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "prev",
     });
-  
-    firebase.database().ref("/simulatedDevices/playerState/currentTrack").update({
-      artist: prevname,
-      track: prevtrack,
-      trackId: prevTrackId,
-    });
+
+    firebase
+      .database()
+      .ref("/simulatedDevices/playerState/currentTrack")
+      .update({
+        artist: prevname,
+        track: prevtrack,
+        trackId: prevTrackId,
+      });
   };
-  
-  
 
   const handleNext = () => {
-    const currentIndex = songList.findIndex((song) => song.trackId === actionData.trackId);
+    const currentIndex = songList.findIndex(
+      (song) => song.trackId === actionData.trackId
+    );
     const nextIndex = (currentIndex + 1) % songList.length;
     const nextTrackId = songList[nextIndex].trackId;
     const nextTrack = songList[nextIndex];
@@ -130,41 +137,54 @@ function SimulatedDevice() {
     const nexart = `${nextTrack.artist}`;
     const nextra = `${nextTrack.track}`;
 
-  
     console.log("Next song:", nextTrack);
-  
+
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "next",
     });
-  
-    firebase.database().ref("/simulatedDevices/playerState/currentTrack").update({
-      artist: nexart,
-      track: nextra,
-      trackId: nextTrackId,
-    });
+
+    firebase
+      .database()
+      .ref("/simulatedDevices/playerState/currentTrack")
+      .update({
+        artist: nexart,
+        track: nextra,
+        trackId: nextTrackId,
+      });
   };
-  
 
   return (
     <div className="music-player">
       <h2 className="description">Simulated device</h2>
-      <div className={`Status ${deviceStatus === "offline" ? "border" : "borderOn"}`}>
+      <div
+        className={`Status ${
+          deviceStatus === "offline" ? "border" : "borderOn"
+        }`}
+      >
         {deviceStatus === "offline" ? (
           <div className="offline-status">
-            <img src={offline} alt="simulated_device" width="190" height="200" />
+            <img
+              src={offline}
+              alt="simulated_device"
+              width="190"
+              height="200"
+            />
             <h4>
               Device Status:{" "}
-              <span className="status status-off">
-                {deviceStatus}
-              </span>
+              <span className="status status-off">{deviceStatus}</span>
             </h4>
             <hr className="hr-red" />
           </div>
         ) : (
           <div>
-            <img src={simudev} alt="simulated_device" width="190" height="200" />
-  
+            <img
+              src={simudev}
+              alt="simulated_device"
+              width="190"
+              height="200"
+            />
+
             {isPlaying && (
               <img
                 src={songnotes}
@@ -174,7 +194,7 @@ function SimulatedDevice() {
                 className="flying-notes"
               />
             )}
-  
+
             {actionData && (
               <div>
                 {songList.length > 0 && (
@@ -199,7 +219,7 @@ function SimulatedDevice() {
                         deviceStatus === "online" ? "hr-green" : "hr-red"
                       }
                     />
-  
+
                     <ul>
                       {songList.map((song, index) => (
                         <li key={index}>
@@ -211,13 +231,14 @@ function SimulatedDevice() {
                                 .ref("simulatedDevices/action")
                                 .update({
                                   id: newUUID,
-                                  type: "next"
-                      
+                                  type: "next",
                                 });
-  
-                                firebase
+
+                              firebase
                                 .database()
-                                .ref("/simulatedDevices/playerState/currentTrack")
+                                .ref(
+                                  "/simulatedDevices/playerState/currentTrack"
+                                )
                                 .update({
                                   artist: song.artist,
                                   track: song.track,
@@ -235,7 +256,7 @@ function SimulatedDevice() {
                 )}
               </div>
             )}
-  
+
             {deviceStatus && deviceStatus !== "offline" && (
               <>
                 <h4>
@@ -250,20 +271,21 @@ function SimulatedDevice() {
                 </h4>
               </>
             )}
-  
+
             <div className="player-controls">
               <button className="control-button" onClick={handlePrev}>
                 <FontAwesomeIcon icon={faBackward} />
               </button>
-              <button className="control-button" onClick={handlePlayPauseToggle}>
-                <FontAwesomeIcon
-                  icon={isPlaying ? faPause : faPlay}
-                />
+              <button
+                className="control-button"
+                onClick={handlePlayPauseToggle}
+              >
+                <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
               </button>
               <button className="control-button" onClick={handleStop}>
                 <FontAwesomeIcon icon={faStop} />
               </button>
-  
+
               <button className="control-button" onClick={handleNext}>
                 <FontAwesomeIcon icon={faForward} />
               </button>
@@ -274,7 +296,6 @@ function SimulatedDevice() {
       </div>
     </div>
   );
-                  }
-  
+}
 
 export default SimulatedDevice;

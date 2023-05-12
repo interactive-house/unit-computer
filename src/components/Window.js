@@ -55,11 +55,16 @@ function Window() {
         )}
         {!Status && (
           <div>
-            <h3 className="status" style={{ color: "rgb(168, 30, 30)"}}>
+            <h3 className="status" style={{ color: "rgb(168, 30, 30)" }}>
               {" "}
               Closed{" "}
             </h3>
-            <img src={window_closed} alt="window_open" width="200" height="160" />
+            <img
+              src={window_closed}
+              alt="window_open"
+              width="200"
+              height="160"
+            />
           </div>
         )}
         <br />
