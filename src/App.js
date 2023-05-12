@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     
     const logUserActivity = (event) => {
-      console.log(`User ${event.type} at ${new Date()}`);
+      //console.log(`User ${event.type} at ${new Date()}`);
       setUserActive(true);
       if (
         event.type === "mousemove" ||
@@ -65,7 +65,7 @@ function App() {
     if (loggedIn) { 
     if (!userActive) {
       if (!trackedActivity) {
-        console.log("User is active.");
+        //console.log("User is active.");
       } 
  
 
@@ -74,7 +74,7 @@ function App() {
         const currentTime = new Date();
         const diffInSeconds = (currentTime - lastActivity) / 1000;
 
-        if (diffInSeconds > 15) {
+        if (diffInSeconds > 150000000) {
           console.log("User has been inactive for 15 seconds.");
           const auth = getAuth();
           signOut(auth).then(() => {

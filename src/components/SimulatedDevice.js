@@ -5,7 +5,7 @@ import simudev from "../media/simudevice.png";
 import songnotes from "../media/songnotes.png";
 import "../style/SimulatedDevice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import offline from "../media/offline.png";
 import { v4 as uuidv4 } from "uuid"; //npm install uuid
 
 import {
@@ -33,7 +33,7 @@ function SimulatedDevice() {
     actionRef.on("value", (snapshot) => {
       const actionData = snapshot.val();
       setActionData(actionData);
-      if (actionData.type === "next" || actionData.type === "prev") {
+      if (actionData.type.toLowerCase() === "next" || actionData.type.toLowerCase() === "prev") {
         setIsPlaying(true);
       } else {
         setIsPlaying(false);
@@ -41,7 +41,7 @@ function SimulatedDevice() {
     });
   
     deviceStatusRef.on("value", (snapshot) => {
-      setDeviceStatus(snapshot.val());
+      setDeviceStatus(snapshot.val().toLowerCase());
     });
   
     songListRef.on("value", (snapshot) => {
@@ -59,7 +59,7 @@ function SimulatedDevice() {
     });
   
     statusRef.on("value", (snapshot) => {
-      setStatus(snapshot.val());
+      setStatus(snapshot.val().toLowerCase());
     });
   
     return () => {
@@ -146,18 +146,13 @@ function SimulatedDevice() {
   };
   
 
-
-  
-  
-  
-
   return (
     <div className="music-player">
       <h2 className="description">Simulated device</h2>
-      <div className={`Status ${status === false ? "border" : "borderOn"}`}>
+      <div className={`Status ${deviceStatus === "offline" ? "border" : "borderOn"}`}>
         {deviceStatus === "offline" ? (
           <div className="offline-status">
-            <img src={simudev} alt="simulated_device" width="190" height="200" />
+            <img src={offline} alt="simulated_device" width="190" height="200" />
             <h4>
               Device Status:{" "}
               <span className="status status-off">

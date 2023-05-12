@@ -15,7 +15,7 @@ function Home() {
   const navigate = useNavigate();
   useEffect(() => {
     if (auth.currentUser === null) {
-      navigate("/");
+      //navigate("/");
     }
   }, []);
 

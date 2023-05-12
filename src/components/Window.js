@@ -12,7 +12,7 @@ function Window() {
     const Ref = firebase.database().ref("SmartHomeValueWindow/StatusOfWindow");
 
     Ref.on("value", (snapshot) => {
-      setStatus(snapshot.val() === "open");
+      setStatus(snapshot.val().toLowerCase() === "open");
     });
 
     return () => {

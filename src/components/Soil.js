@@ -12,7 +12,7 @@ function Soil() {
     const ref = firebase.database().ref("SmartHomeValueSoil/StatusOfSoil");
 
     ref.on("value", (snapshot) => {
-      setStatus(snapshot.val());
+      setStatus(snapshot.val().toLowerCase());
     });
 
     return () => {
@@ -25,13 +25,13 @@ function Soil() {
       <h2 className="description">Soil</h2>
       <div className={`Status ${status === "perfect" ? "borderOn" : status === "dry" ? "borderDry" : "borderWet"}`}>
         <br />
-        {status.toUpperCase() === "WET" && (
+        {status.toLowerCase() === "wet" && (
           <div>
             <h3 className="statussoil">Wet</h3>
             <img src={soil_wet} alt="soil_wet" width="190" height="190" />
           </div>
         )}
-        {status.toUpperCase() === "DRY" && (
+        {status.toLowerCase() === "dry" && (
           <div>
             <h3 className="status" style={{ color: "#b2996e" }}>
               Dry
@@ -39,7 +39,7 @@ function Soil() {
             <img src={soil_dry} alt="soil_dry" width="190" height="190" />
           </div>
         )}
-        {status.toUpperCase() === "PERFECT" && (
+        {status.toLowerCase() === "perfect" && (
           <div>
             <h3 className="status" style={{ color: "#90ee90" }}>
               Perfect

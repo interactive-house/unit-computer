@@ -12,7 +12,7 @@ function Light() {
     const Ref = firebase.database().ref("SmartHomeValueLight/StatusOflight");
 
     Ref.on("value", (snapshot) => {
-      setStatus(snapshot.val() === "on");
+      setStatus(snapshot.val().toLowerCase() === "on");
     });
 
     return () => {

@@ -12,7 +12,7 @@ function Door() {
     const Ref = firebase.database().ref("SmartHomeValueDoor/StatusOfDoor");
 
     Ref.on("value", (snapshot) => {
-      setStatus(snapshot.val() === "open");
+      setStatus(snapshot.val().toLowerCase() === "open");
     });
 
     return () => {
