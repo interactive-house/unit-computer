@@ -13,6 +13,7 @@ function Admin() {
   const [validationCode, setValidationCode] = useState("");
   const [password, setPassword] = useState("");
   const [dbValidationCode, setDbValidationCode] = useState("");
+  const [createAccountError, setAccountError] = useState("");
 
   useEffect(() => {
     const Ref = firebase.database().ref("ValidationCode");
@@ -44,10 +45,10 @@ function Admin() {
         })
         .catch((error) => {
           const errorCode = error.code;
-          alert(errorCode);
+          setAccountError(errorCode);
         });
     } else {
-      alert("Validation code is incorrect");
+      setAccountError("Validation code is incorrect");
     }
   };
 
@@ -88,9 +89,9 @@ function Admin() {
             onChange={handleValidationCode}
           />
         </label>
+        <p className="error">{createAccountError}</p>
         <div>
           {" "}
-          <br></br>
           <button className="loginButton" onClick={handleNewAccount}>
             Create Account
           </button>

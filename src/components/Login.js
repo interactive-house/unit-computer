@@ -59,10 +59,10 @@ function Login() {
           />
         </label>
         {wrongPassword && (
-          <p style={{ color: "red" }}>Incorrect password or invalid email</p>
+          <p className="error">Incorrect password or invalid email</p>
         )}
         <div>
-          <br />
+
           <button className="loginButton" type="button" onClick={login}>
             Login
           </button>

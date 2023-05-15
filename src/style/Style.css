@@ -131,3 +131,12 @@ td {
   margin-right: 2%;
   margin-left: 2%;
 }
+
+.error {
+  color: rgb(128, 0, 0);
+  padding-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
