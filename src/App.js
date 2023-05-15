@@ -68,7 +68,7 @@ function App() {
           const currentTime = new Date();
           const diffInSeconds = (currentTime - lastActivity) / 1000;
 
-          if (diffInSeconds > 15) {
+          if (diffInSeconds > 15000000000000000000000000000000000000000000000000000000000) {
             console.log("User has been inactive for 15 seconds.");
             const auth = getAuth();
             signOut(auth).then(() => {

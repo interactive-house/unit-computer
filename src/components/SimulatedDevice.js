@@ -29,6 +29,7 @@ function SimulatedDevice() {
     const deviceStatusRef = dbRef.child("simulatedDevices/deviceStatus");
     const songListRef = dbRef.child("simulatedDevices/songList");
     const statusRef = dbRef.child("/simulatedDevices/action/type");
+ 
 
     actionRef.on("value", (snapshot) => {
       const actionData = snapshot.val();
@@ -56,6 +57,11 @@ function SimulatedDevice() {
 
     statusRef.on("value", (snapshot) => {
       setStatus(snapshot.val().toLowerCase());
+      if (snapshot.val().toLowerCase() === "play") {
+        setIsPlaying(true);
+      } else {
+        setIsPlaying(false);
+      }
     });
 
     return () => {
@@ -73,19 +79,23 @@ function SimulatedDevice() {
       type: "stop",
     });
     setIsPlaying(false);
-
-    
   };
 
   const handlePlayPauseToggle = () => {
     const newUUID = uuidv4();
-    const { type } = actionData || {};
-    const newStatus = type === "play" ? "pause" : "play";
-    firebase.database().ref("/simulatedDevices/action").set({
-      id: newUUID,
-      type: newStatus,
-    });
-    setIsPlaying(newStatus === "play");
+    if (isPlaying === true) {
+      setIsPlaying(false);
+      firebase.database().ref("/simulatedDevices/action").set({
+        id: newUUID,
+        type: "pause",
+      });
+    } else {
+      setIsPlaying(true);
+      firebase.database().ref("/simulatedDevices/action").set({
+        id: newUUID,
+        type: "play",
+      });
+    }
   };
 
   const handlePrev = () => {
@@ -224,9 +234,7 @@ function SimulatedDevice() {
                 <FontAwesomeIcon icon={faBackward} />
               </button>
               <button
-                className="control-button"
-                onClick={handlePlayPauseToggle}
-              >
+                className="control-button" onClick={handlePlayPauseToggle}>
                 <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
               </button>
               <button className="control-button" onClick={handleStop}>
