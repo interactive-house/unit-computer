@@ -28,19 +28,12 @@ function SimulatedDevice() {
     const actionRef = dbRef.child("/simulatedDevices/playerState/currentTrack");
     const deviceStatusRef = dbRef.child("simulatedDevices/deviceStatus");
     const songListRef = dbRef.child("simulatedDevices/songList");
-    const statusRef = dbRef.child("/simulatedDevices/playerState/state/state");
+    const statusRef = dbRef.child("/simulatedDevices/action/type");
 
     actionRef.on("value", (snapshot) => {
       const actionData = snapshot.val();
       setActionData(actionData);
-      if (
-        actionData.type.toLowerCase() === "next" ||
-        actionData.type.toLowerCase() === "prev"
-      ) {
-        setIsPlaying(true);
-      } else {
-        setIsPlaying(false);
-      }
+      
     });
 
     deviceStatusRef.on("value", (snapshot) => {
@@ -75,84 +68,46 @@ function SimulatedDevice() {
 
   const handleStop = () => {
     const newUUID = uuidv4();
-    firebase.database().ref("/simulatedDevices/playerState/state").update({
-      state: "stopped",
+    firebase.database().ref("/simulatedDevices/action").set({
+      id: newUUID,
+      type: "stop",
     });
     setIsPlaying(false);
 
-    firebase
-      .database()
-      .ref("/simulatedDevices/playerState/currentTrack")
-      .update({
-        artist: "test",
-        track: "test",
-        trackId: "78c5d099-f70b-462e-85a4-c33fb4960675",
-      });
+    
   };
 
   const handlePlayPauseToggle = () => {
-    const { state } = actionData || {};
-    const newStatus = state === "playing" ? "paused" : "playing";
-    firebase
-      .database()
-      .ref("/simulatedDevices/playerState/state/state")
-      .set(newStatus);
-    setIsPlaying(newStatus === "playing");
+    const newUUID = uuidv4();
+    const { type } = actionData || {};
+    const newStatus = type === "play" ? "pause" : "play";
+    firebase.database().ref("/simulatedDevices/action").set({
+      id: newUUID,
+      type: newStatus,
+    });
+    setIsPlaying(newStatus === "play");
   };
 
   const handlePrev = () => {
-    const currentIndex = songList.findIndex(
-      (song) => song.trackId === actionData.trackId
-    );
-    const prevIndex = (currentIndex - 1 + songList.length) % songList.length;
-    const prevSong = songList[prevIndex];
-    const prevTrackId = prevSong.trackId;
     const newUUID = uuidv4();
-    const prevname = `${prevSong.artist}`;
-    const prevtrack = `${prevSong.track}`;
 
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "prev",
     });
 
-    firebase
-      .database()
-      .ref("/simulatedDevices/playerState/currentTrack")
-      .update({
-        artist: prevname,
-        track: prevtrack,
-        trackId: prevTrackId,
-      });
   };
 
   const handleNext = () => {
-    const currentIndex = songList.findIndex(
-      (song) => song.trackId === actionData.trackId
-    );
-    const nextIndex = (currentIndex + 1) % songList.length;
-    const nextTrackId = songList[nextIndex].trackId;
-    const nextTrack = songList[nextIndex];
     const newUUID = uuidv4();
-    const nexart = `${nextTrack.artist}`;
-    const nextra = `${nextTrack.track}`;
-
-    console.log("Next song:", nextTrack);
-
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "next",
     });
 
-    firebase
-      .database()
-      .ref("/simulatedDevices/playerState/currentTrack")
-      .update({
-        artist: nexart,
-        track: nextra,
-        trackId: nextTrackId,
-      });
   };
+  
+  
 
   return (
     <div className="music-player">
@@ -205,7 +160,7 @@ function SimulatedDevice() {
                           <div>
                             <h2>Current song:</h2>
                             <p>
-                              {song.artist}: {song.track}
+                              {song.artist}: {actionData.track}
                             </p>
                           </div>
                         )}
@@ -229,21 +184,13 @@ function SimulatedDevice() {
                               firebase
                                 .database()
                                 .ref("simulatedDevices/action")
-                                .update({
+                                .set({
                                   id: newUUID,
-                                  type: "next",
-                                });
-
-                              firebase
-                                .database()
-                                .ref(
-                                  "/simulatedDevices/playerState/currentTrack"
-                                )
-                                .update({
-                                  artist: song.artist,
-                                  track: song.track,
+                                  type: "play",
                                   trackId: song.trackId,
                                 });
+
+                             
                               setIsPlaying(true);
                             }}
                           >
