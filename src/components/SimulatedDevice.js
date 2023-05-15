@@ -294,6 +294,7 @@ function SimulatedDevice() {
         )}
         <br />
       </div>
+      <br />
     </div>
   );
 }
