@@ -22,6 +22,7 @@ function SimulatedDevice() {
   const [songList, setSongList] = useState([]);
   const [status, setStatus] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [state, setstate] = useState(null);
 
   useEffect(() => {
     const dbRef = firebase.database().ref();
@@ -29,6 +30,7 @@ function SimulatedDevice() {
     const deviceStatusRef = dbRef.child("simulatedDevices/deviceStatus");
     const songListRef = dbRef.child("simulatedDevices/songList");
     const statusRef = dbRef.child("/simulatedDevices/action/type");
+    const playerstateref = dbRef.child("/simulatedDevices/playerState/state");
  
 
     actionRef.on("value", (snapshot) => {
@@ -39,6 +41,13 @@ function SimulatedDevice() {
 
     deviceStatusRef.on("value", (snapshot) => {
       setDeviceStatus(snapshot.val().toLowerCase());
+    });
+
+    playerstateref.on("value", (snapshot) => {
+      setstate(snapshot.val().toLowerCase());
+      if (setstate === "playing") {
+        setIsPlaying(true);
+      } 
     });
 
     songListRef.on("value", (snapshot) => {
@@ -57,11 +66,7 @@ function SimulatedDevice() {
 
     statusRef.on("value", (snapshot) => {
       setStatus(snapshot.val().toLowerCase());
-      if (snapshot.val().toLowerCase() === "play") {
-        setIsPlaying(true);
-      } else {
-        setIsPlaying(false);
-      }
+    
     });
 
     return () => {
@@ -69,6 +74,7 @@ function SimulatedDevice() {
       deviceStatusRef.off();
       songListRef.off();
       statusRef.off();
+      playerstateref.off();
     };
   }, []);
 
@@ -79,10 +85,12 @@ function SimulatedDevice() {
       type: "stop",
     });
     setIsPlaying(false);
+
   };
 
   const handlePlayPauseToggle = () => {
     const newUUID = uuidv4();
+
     if (isPlaying === true) {
       setIsPlaying(false);
       firebase.database().ref("/simulatedDevices/action").set({
@@ -95,7 +103,8 @@ function SimulatedDevice() {
         id: newUUID,
         type: "play",
       });
-    }
+    
+  }
   };
 
   const handlePrev = () => {
@@ -105,15 +114,18 @@ function SimulatedDevice() {
       id: newUUID,
       type: "prev",
     });
+  
 
   };
 
   const handleNext = () => {
     const newUUID = uuidv4();
+
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "next",
     });
+  
 
   };
   
