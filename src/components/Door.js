@@ -6,7 +6,8 @@ import door_open from "../media/door_open.png";
 import door_closed from "../media/door_closed.png";
 
 function Door() {
-  const [Status, setStatus] = useState(false);
+  const [Status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const Ref = firebase.database().ref("SmartHomeValueDoor/StatusOfDoor");
@@ -26,6 +27,23 @@ function Door() {
       .ref("SmartHomeValueDoor/StatusOfDoor")
       .set(checked ? "open" : "closed");
   };
+
+  useEffect(() => {
+    if (Status !== null) {
+      setLoading(false);
+    }
+  }, [Status]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Door</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="center">

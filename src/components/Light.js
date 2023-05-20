@@ -6,7 +6,8 @@ import light_on from "../media/light_on.png";
 import light_off from "../media/light_off.png";
 
 function Light() {
-  const [Status, setStatus] = useState(false);
+  const [Status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const Ref = firebase.database().ref("SmartHomeValueLight/StatusOflight");
@@ -26,6 +27,23 @@ function Light() {
       .ref("SmartHomeValueLight/StatusOflight")
       .set(checked ? "on" : "off");
   };
+
+  useEffect(() => {
+    if (Status !== null) {
+      setLoading(false);
+    }
+  }, [Status]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Light</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="center">

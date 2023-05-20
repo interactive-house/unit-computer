@@ -6,7 +6,8 @@ import soil_dry from "../media/soil_dry.png";
 import soil_perfect from "../media/soil_perfect.png";
 
 function Soil() {
-  const [status, setStatus] = useState("");
+  const [Status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const ref = firebase.database().ref("SmartHomeValueSoil/StatusOfSoil");
@@ -20,26 +21,43 @@ function Soil() {
     };
   }, []);
 
+  useEffect(() => {
+    if (Status !== null) {
+      setLoading(false);
+    }
+  }, [Status]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Soil</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="center">
       <h2 className="description">Soil</h2>
       <div
         className={`Status ${
-          status === "perfect"
+          Status === "perfect"
             ? "borderOn"
-            : status === "dry"
+            : Status === "dry"
             ? "borderDry"
             : "borderWet"
         }`}
       >
         <br />
-        {status.toLowerCase() === "wet" && (
+        {Status.toLowerCase() === "wet" && (
           <div>
             <h3 className="statussoil">Wet</h3>
             <img src={soil_wet} alt="soil_wet" width="190" height="190" />
           </div>
         )}
-        {status.toLowerCase() === "dry" && (
+        {Status.toLowerCase() === "dry" && (
           <div>
             <h3 className="status" style={{ color: "#b2996e" }}>
               Dry
@@ -47,7 +65,7 @@ function Soil() {
             <img src={soil_dry} alt="soil_dry" width="190" height="190" />
           </div>
         )}
-        {status.toLowerCase() === "perfect" && (
+        {Status.toLowerCase() === "perfect" && (
           <div>
             <h3 className="status" style={{ color: "#90ee90" }}>
               Perfect

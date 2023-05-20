@@ -23,6 +23,7 @@ function SimulatedDevice() {
   const [status, setStatus] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [state, setstate] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const dbRef = firebase.database().ref();
@@ -119,6 +120,23 @@ function SimulatedDevice() {
       type: "next",
     });
   };
+
+  useEffect(() => {
+    if (state !== null) {
+      setLoading(false);
+    }
+  }, [state]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Simulated device</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="music-player">
