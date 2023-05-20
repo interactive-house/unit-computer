@@ -14,10 +14,10 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-      onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate("/login");
-      } 
+      }
     });
   }, []);
 

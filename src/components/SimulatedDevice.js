@@ -31,12 +31,10 @@ function SimulatedDevice() {
     const songListRef = dbRef.child("simulatedDevices/songList");
     const statusRef = dbRef.child("/simulatedDevices/action/type");
     const playerstateref = dbRef.child("/simulatedDevices/playerState/state");
- 
 
     actionRef.on("value", (snapshot) => {
       const actionData = snapshot.val();
       setActionData(actionData);
-      
     });
 
     deviceStatusRef.on("value", (snapshot) => {
@@ -47,7 +45,7 @@ function SimulatedDevice() {
       setstate(snapshot.val().toLowerCase());
       if (setstate === "playing") {
         setIsPlaying(true);
-      } 
+      }
     });
 
     songListRef.on("value", (snapshot) => {
@@ -66,7 +64,6 @@ function SimulatedDevice() {
 
     statusRef.on("value", (snapshot) => {
       setStatus(snapshot.val().toLowerCase());
-    
     });
 
     return () => {
@@ -85,7 +82,6 @@ function SimulatedDevice() {
       type: "stop",
     });
     setIsPlaying(false);
-
   };
 
   const handlePlayPauseToggle = () => {
@@ -103,8 +99,7 @@ function SimulatedDevice() {
         id: newUUID,
         type: "play",
       });
-    
-  }
+    }
   };
 
   const handlePrev = () => {
@@ -114,8 +109,6 @@ function SimulatedDevice() {
       id: newUUID,
       type: "prev",
     });
-  
-
   };
 
   const handleNext = () => {
@@ -125,11 +118,7 @@ function SimulatedDevice() {
       id: newUUID,
       type: "next",
     });
-  
-
   };
-  
-  
 
   return (
     <div className="music-player">
@@ -212,7 +201,6 @@ function SimulatedDevice() {
                                   trackId: song.trackId,
                                 });
 
-                             
                               setIsPlaying(true);
                             }}
                           >
@@ -246,7 +234,9 @@ function SimulatedDevice() {
                 <FontAwesomeIcon icon={faBackward} />
               </button>
               <button
-                className="control-button" onClick={handlePlayPauseToggle}>
+                className="control-button"
+                onClick={handlePlayPauseToggle}
+              >
                 <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
               </button>
               <button className="control-button" onClick={handleStop}>

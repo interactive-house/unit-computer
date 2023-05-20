@@ -30,14 +30,13 @@ function Navbar() {
     };
   }, []);
 
-  
-
   const handleSignOut = async () => {
     try {
       const auth = getAuth();
       signOut(auth).then(() => {
-      navigate("/");
-    })} catch (error) {
+        navigate("/");
+      });
+    } catch (error) {
       console.log(error.message);
     }
   };
@@ -75,26 +74,33 @@ function Navbar() {
               </button>
               {currentUser ? (
                 <>
-                <br />
+                  <br />
                   <h4>Welcome, {currentUser.email}!</h4>
                   <p>You now have full access to the smart home!</p>
                   <h4>How does it work?</h4>
                   <p>
                     The switches will activate/deactivate the correspondig
-                    components. If you want to listen to music, you can either 
-                    click on the song you want to play or use the controller 
-                    buttons. The soil sensor will show you the moisture of the soil.
+                    components. If you want to listen to music, you can either
+                    click on the song you want to play or use the controller
+                    buttons. The soil sensor will show you the moisture of the
+                    soil.
                   </p>
                 </>
               ) : (
                 <>
                   <h4>Welcome!</h4>
-                  <p>To control the smart house you need an account.
-                    If you already have this you can log in with your email and password.
+                  <p>
+                    To control the smart house you need an account. If you
+                    already have this you can log in with your email and
+                    password.
                   </p>
                   <h4>Don´t have an account?</h4>
-                  <p>To create an account you need to have access to the validation code. 
-                    Click on the text below to create your account!</p> <a href="/register">Create an account!</a>
+                  <p>
+                    To create an account you need to have access to the
+                    validation code. Click on the text below to create your
+                    account!
+                  </p>{" "}
+                  <a href="/register">Create an account!</a>
                 </>
               )}
             </div>

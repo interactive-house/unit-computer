@@ -59,7 +59,12 @@ function Window() {
               {" "}
               Closed{" "}
             </h3>
-            <img src={window_closed} alt="window_open" width="230" height="200" />
+            <img
+              src={window_closed}
+              alt="window_open"
+              width="230"
+              height="200"
+            />
           </div>
         )}
         <br />
