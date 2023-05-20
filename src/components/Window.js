@@ -55,7 +55,7 @@ function Window() {
         )}
         {!Status && (
           <div>
-            <h3 className="status" style={{ color: "rgb(168, 30, 30)" }}>
+            <h3 className="status" style={{ color: "red" }}>
               {" "}
               Closed{" "}
             </h3>

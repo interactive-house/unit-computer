@@ -72,7 +72,7 @@ function Register() {
           <br></br>
           <p className="text">Username</p>
           <input
-            type="text"
+            type="email"
             value={email}
             className="input"
             placeholder="Email"
@@ -82,7 +82,7 @@ function Register() {
         <label>
           <p className="text">Password</p>
           <input
-            type="text"
+            type="password"
             value={password}
             className="input"
             placeholder="Password"
