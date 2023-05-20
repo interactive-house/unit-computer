@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "./firebase";
 import Navbar from "./NavBar";
 
@@ -12,15 +12,17 @@ function Login() {
   const [wrongPassword, setWrongPassword] = useState(false);
 
   const login = async () => {
+    const auth = getAuth();
     try {
-      const user = await signInWithEmailAndPassword(
+      signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
-      );
-      console.log(user);
-      navigate("/home");
-    } catch (error) {
+      ).then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/home");
+      })} catch (error) {
       console.log(error.message);
       setWrongPassword(true);
     }
@@ -31,6 +33,7 @@ function Login() {
       <Navbar />
       <h1 className="loginDescription">Sign In</h1>
       <div className="login">
+        <form onSubmit={login}>
         <label>
           <br />
           <br />
@@ -55,15 +58,22 @@ function Login() {
               setLoginPassword(event.target.value);
               setWrongPassword(false);
             }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                login();
+              }
+            }}
             className="input"
           />
         </label>
+        </form>
         {wrongPassword && (
           <p className="error">Incorrect password or invalid email</p>
         )}
         <div>
 
-          <button className="loginButton" type="button" onClick={login}>
+          <button className="loginButton" type="submit" onClick={login}>
             Login
           </button>
           <br />

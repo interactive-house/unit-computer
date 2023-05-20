@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/NavBar.css";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut, onAuthStateChanged, getAuth } from "firebase/auth";
 import { auth } from "./firebase";
 
 function Navbar() {
@@ -30,11 +30,14 @@ function Navbar() {
     };
   }, []);
 
+  
+
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      const auth = getAuth();
+      signOut(auth).then(() => {
       navigate("/");
-    } catch (error) {
+    })} catch (error) {
       console.log(error.message);
     }
   };

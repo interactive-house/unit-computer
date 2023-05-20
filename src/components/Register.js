@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth";
 import firebase from "./firebase";
 import { useNavigate } from "react-router-dom";
 
-function Admin() {
+function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [validationCode, setValidationCode] = useState("");
@@ -57,6 +57,7 @@ function Admin() {
       <Navbar />
       <h1 className="loginDescription">Create account</h1>
       <div className="login">
+        <form onSubmit={handleNewAccount}>
         <label>
           <br></br>
           <br></br>
@@ -87,8 +88,15 @@ function Admin() {
             className="input"
             placeholder="Validation code"
             onChange={handleValidationCode}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                handleNewAccount();
+              }
+            }}
           />
         </label>
+        </form>
         <p className="error">{createAccountError}</p>
         <div>
           {" "}
@@ -110,4 +118,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default Register;

@@ -6,16 +6,20 @@ import Soil from "./Soil";
 import SimulatedDevice from "./SimulatedDevice";
 import Navbar from "./NavBar";
 import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function Home() {
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (auth.currentUser === null && auth.initialized) {
-      navigate("/");
-    }
-  }, [auth.currentUser, auth.initialized]);
+      onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate("/login");
+      } 
+    });
+  }, []);
 
   return (
     <div className="center">
