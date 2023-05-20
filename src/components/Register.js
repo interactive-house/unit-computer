@@ -3,9 +3,10 @@ import "../style/Login.css";
 import Navbar from "./NavBar";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase from "./firebase";
 import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
 
 function Register() {
   const navigate = useNavigate();
@@ -14,6 +15,14 @@ function Register() {
   const [password, setPassword] = useState("");
   const [dbValidationCode, setDbValidationCode] = useState("");
   const [createAccountError, setAccountError] = useState("");
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/home");
+    } 
+  });
+}, []);
 
   useEffect(() => {
     const Ref = firebase.database().ref("ValidationCode");

@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { signInWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import Navbar from "./NavBar";
+import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
+
+  useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate("/home");
+      } 
+    });
+  }, []);
 
   const login = async () => {
     const auth = getAuth();

@@ -50,7 +50,7 @@ function Light() {
         {Status && (
           <div>
             <h3 className="status"> On </h3>
-            <img src={light_on} alt="light_on" width="140" height="180" />
+            <img src={light_on} alt="light_on" width="180" height="222" />
           </div>
         )}
         {!Status && (
@@ -59,7 +59,7 @@ function Light() {
               {" "}
               Off{" "}
             </h3>
-            <img src={light_off} alt="light_off" width="140" height="180" />
+            <img src={light_off} alt="light_off" width="180" height="222" />
           </div>
         )}
       </div>

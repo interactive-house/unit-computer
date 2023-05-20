@@ -106,7 +106,7 @@ function App() {
           <Route path="/login" element={<Login onActivity={handleUserActivity} />} />
 
           {/*If path is not found, redirect to Home*/}
-          <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </>

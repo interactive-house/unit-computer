@@ -50,7 +50,7 @@ function Window() {
         {Status && (
           <div>
             <h3 className="status"> Open</h3>
-            <img src={window_open} alt="window_open" width="200" height="160" />
+            <img src={window_open} alt="window_open" width="230" height="200" />
           </div>
         )}
         {!Status && (
@@ -59,12 +59,7 @@ function Window() {
               {" "}
               Closed{" "}
             </h3>
-            <img
-              src={window_closed}
-              alt="window_open"
-              width="200"
-              height="160"
-            />
+            <img src={window_closed} alt="window_open" width="230" height="200" />
           </div>
         )}
         <br />
