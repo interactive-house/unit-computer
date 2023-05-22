@@ -143,3 +143,24 @@ h5,
 p {
   color: #000;
 }
+
+@keyframes sleeping {
+  0% {
+    transform: translateY(15px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(15px);
+  }
+}
+
+.sleeping-image {
+  animation: sleeping 5s ease-in-out infinite;
+}
+
+
+
+
+

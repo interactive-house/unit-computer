@@ -6,6 +6,9 @@ import songnotes from "../media/songnotes.png";
 import "../style/SimulatedDevice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import offline from "../media/offline.png";
+import equalizer from "../media/equalizer.gif";
+
+
 import { v4 as uuidv4 } from "uuid"; //npm install uuid
 
 import {
@@ -14,7 +17,9 @@ import {
   faStop,
   faBackward,
   faForward,
+  faSpa,
 } from "@fortawesome/free-solid-svg-icons";
+import { set } from "firebase/database";
 
 function SimulatedDevice() {
   const [actionData, setActionData] = useState(null);
@@ -45,9 +50,14 @@ function SimulatedDevice() {
 
     playerstateref.on("value", (snapshot) => {
       setstate(snapshot.val().toLowerCase());
-      if (setstate === "playing") {
+
+      const state = snapshot.val().toLowerCase();
+
+      if (state === "playing") {
         setIsPlaying(true);
-      } 
+      } else {
+        setIsPlaying(false);
+      }
     });
 
     songListRef.on("value", (snapshot) => {
@@ -64,10 +74,11 @@ function SimulatedDevice() {
       setSongList(songs);
     });
 
-    statusRef.on("value", (snapshot) => {
-      setStatus(snapshot.val().toLowerCase());
-    
-    });
+statusRef.on("value", (snapshot) => {
+  const status = snapshot.val().toLowerCase();
+  setStatus(status);
+});
+
 
     return () => {
       actionRef.off();
@@ -84,21 +95,18 @@ function SimulatedDevice() {
       id: newUUID,
       type: "stop",
     });
-    setIsPlaying(false);
 
   };
 
   const handlePlayPauseToggle = () => {
     const newUUID = uuidv4();
 
-    if (isPlaying === true) {
-      setIsPlaying(false);
+    if (state === "playing") {
       firebase.database().ref("/simulatedDevices/action").set({
         id: newUUID,
         type: "pause",
       });
     } else {
-      setIsPlaying(true);
       firebase.database().ref("/simulatedDevices/action").set({
         id: newUUID,
         type: "play",
@@ -146,6 +154,7 @@ function SimulatedDevice() {
               alt="simulated_device"
               width="190"
               height="200"
+              className="sleeping-image"
             />
             <h4>
               Device Status:{" "}
@@ -188,14 +197,16 @@ function SimulatedDevice() {
                         )}
                       </div>
                     ))}
-                    <p>
-                      <strong>Status:</strong> {status}
-                    </p>
-                    <hr
-                      className={
-                        deviceStatus === "online" ? "hr-green" : "hr-red"
-                      }
-                    />
+
+                  
+       
+                          <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
+            
+
+
+
+
+
 
                     <ul>
                       {songList.map((song, index) => (
@@ -213,7 +224,7 @@ function SimulatedDevice() {
                                 });
 
                              
-                              setIsPlaying(true);
+                              
                             }}
                           >
                             {song.artist}: {song.track}
@@ -247,7 +258,7 @@ function SimulatedDevice() {
               </button>
               <button
                 className="control-button" onClick={handlePlayPauseToggle}>
-                <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+                <FontAwesomeIcon  icon={state === "playing" ? faPause : faPlay} />
               </button>
               <button className="control-button" onClick={handleStop}>
                 <FontAwesomeIcon icon={faStop} />

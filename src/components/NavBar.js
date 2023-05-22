@@ -60,9 +60,12 @@ function Navbar() {
 
       <div className="popup-container">
         <div className="open-popup-button-container">
-          <button className="open-popup-button" onClick={togglePopup}>
-            GET STARTED
-          </button>
+        <button className="open-popup-button" 
+        onClick={togglePopup} 
+        style={{ fontWeight: 'bold' }}>
+        GET STARTED
+        </button>
+
         </div>
         {isPopupOpen && (
           <div className="overlay">
