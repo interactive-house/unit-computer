@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/NavBar.css";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut, onAuthStateChanged, getAuth } from "firebase/auth";
 import { auth } from "./firebase";
 
 function Navbar() {
@@ -32,8 +32,10 @@ function Navbar() {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
-      navigate("/");
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        navigate("/");
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -71,26 +73,37 @@ function Navbar() {
           <div className="overlay">
             <div className="popup">
               <button className="close-button" onClick={togglePopup}>
-                X
+                x
               </button>
               {currentUser ? (
                 <>
+                  <br />
                   <h4>Welcome, {currentUser.email}!</h4>
-                  <p>Here you can controll the smart home!</p>
-                  <h4>How it works:</h4>
+                  <p>You now have full access to the smart home!</p>
+                  <h4>How does it work?</h4>
                   <p>
-                    You controll the each compontens by pressing the buttons.
-                    The press will activate/deactivate the correspondig
-                    compontens.
+                    The switches will activate/deactivate the correspondig
+                    components. If you want to listen to music, you can either
+                    click on the song you want to play or use the controller
+                    buttons. The soil sensor will show you the moisture of the
+                    soil.
                   </p>
                 </>
               ) : (
                 <>
-                  <h4>Get started.</h4>
-                  <h4>Already have an account:</h4>
-                  <p>Sign in.</p>
-                  <h4>No account:</h4>
-                  <p>Contact the admin for a validation code.</p>
+                  <h4>Welcome!</h4>
+                  <p>
+                    To control the smart house you need an account. If you
+                    already have this you can log in with your email and
+                    password.
+                  </p>
+                  <h4>Don´t have an account?</h4>
+                  <p>
+                    To create an account you need to have access to the
+                    validation code. Click on the text below to create your
+                    account!
+                  </p>{" "}
+                  <a href="/register">Create an account!</a>
                 </>
               )}
             </div>

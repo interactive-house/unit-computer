@@ -3,17 +3,26 @@ import "../style/Login.css";
 import Navbar from "./NavBar";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase from "./firebase";
 import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
 
-function Admin() {
+function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [validationCode, setValidationCode] = useState("");
   const [password, setPassword] = useState("");
   const [dbValidationCode, setDbValidationCode] = useState("");
   const [createAccountError, setAccountError] = useState("");
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate("/home");
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const Ref = firebase.database().ref("ValidationCode");
@@ -57,38 +66,46 @@ function Admin() {
       <Navbar />
       <h1 className="loginDescription">Create account</h1>
       <div className="login">
-        <label>
-          <br></br>
-          <br></br>
-          <p className="text">Username</p>
-          <input
-            type="text"
-            value={email}
-            className="input"
-            placeholder="Email"
-            onChange={handleUsername}
-          />
-        </label>
-        <label>
-          <p className="text">Password</p>
-          <input
-            type="text"
-            value={password}
-            className="input"
-            placeholder="Password"
-            onChange={handlePassword}
-          />
-        </label>
-        <label>
-          <p className="text">Validation code</p>
-          <input
-            type="password"
-            value={validationCode}
-            className="input"
-            placeholder="Validation code"
-            onChange={handleValidationCode}
-          />
-        </label>
+        <form onSubmit={handleNewAccount}>
+          <label>
+            <br></br>
+            <br></br>
+            <p className="text">Username</p>
+            <input
+              type="email"
+              value={email}
+              className="input"
+              placeholder="Email"
+              onChange={handleUsername}
+            />
+          </label>
+          <label>
+            <p className="text">Password</p>
+            <input
+              type="password"
+              value={password}
+              className="input"
+              placeholder="Password"
+              onChange={handlePassword}
+            />
+          </label>
+          <label>
+            <p className="text">Validation code</p>
+            <input
+              type="password"
+              value={validationCode}
+              className="input"
+              placeholder="Validation code"
+              onChange={handleValidationCode}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  handleNewAccount();
+                }
+              }}
+            />
+          </label>
+        </form>
         <p className="error">{createAccountError}</p>
         <div>
           {" "}
@@ -110,4 +127,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default Register;

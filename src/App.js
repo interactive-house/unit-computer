@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import Admin from "./components/Admin";
+import Register from "./components/Register";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
 function App() {
@@ -68,7 +68,10 @@ function App() {
           const currentTime = new Date();
           const diffInSeconds = (currentTime - lastActivity) / 1000;
 
-          if (diffInSeconds > 15000000000000000000000000000000000000000000000000000000000) {
+          if (
+            diffInSeconds >
+            15000000000000000000000000000000000000000000000000000000000
+          ) {
             console.log("User has been inactive for 15 seconds.");
             const auth = getAuth();
             signOut(auth).then(() => {
@@ -98,15 +101,18 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/register" element={<Admin />} />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/home"
             element={<Home onActivity={handleUserActivity} />}
           />
-          <Route path="/" element={<Login onActivity={handleUserActivity} />} />
+          <Route
+            path="/login"
+            element={<Login onActivity={handleUserActivity} />}
+          />
 
           {/*If path is not found, redirect to Home*/}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </>

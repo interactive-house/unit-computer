@@ -6,7 +6,8 @@ import light_on from "../media/light_on.png";
 import light_off from "../media/light_off.png";
 
 function Light() {
-  const [Status, setStatus] = useState(false);
+  const [Status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const Ref = firebase.database().ref("SmartHomeValueLight/StatusOflight");
@@ -26,6 +27,23 @@ function Light() {
       .ref("SmartHomeValueLight/StatusOflight")
       .set(checked ? "on" : "off");
   };
+
+  useEffect(() => {
+    if (Status !== null) {
+      setLoading(false);
+    }
+  }, [Status]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Light</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="center">
@@ -50,16 +68,16 @@ function Light() {
         {Status && (
           <div>
             <h3 className="status"> On </h3>
-            <img src={light_on} alt="light_on" width="140" height="180" />
+            <img src={light_on} alt="light_on" width="180" height="222" />
           </div>
         )}
         {!Status && (
           <div>
-            <h3 className="status" style={{ color: "rgb(168, 30, 30)" }}>
+            <h3 className="status" style={{ color: "red" }}>
               {" "}
               Off{" "}
             </h3>
-            <img src={light_off} alt="light_off" width="140" height="180" />
+            <img src={light_off} alt="light_off" width="180" height="222" />
           </div>
         )}
       </div>

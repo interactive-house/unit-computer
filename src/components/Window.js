@@ -6,7 +6,8 @@ import window_open from "../media/window_open.png";
 import window_closed from "../media/window_closed.png";
 
 function Window() {
-  const [Status, setStatus] = useState(false);
+  const [Status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const Ref = firebase.database().ref("SmartHomeValueWindow/StatusOfWindow");
@@ -26,6 +27,23 @@ function Window() {
       .ref("/SmartHomeValueWindow/StatusOfWindow")
       .set(checked ? "open" : "closed");
   };
+
+  useEffect(() => {
+    if (Status !== null) {
+      setLoading(false);
+    }
+  }, [Status]);
+
+  if (loading) {
+    return (
+      <div className="center">
+        <h2 className="description">Window</h2>
+        <div className="loadingBorder">
+          <div className="loader-spinner"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="center">
@@ -50,20 +68,20 @@ function Window() {
         {Status && (
           <div>
             <h3 className="status"> Open</h3>
-            <img src={window_open} alt="window_open" width="200" height="160" />
+            <img src={window_open} alt="window_open" width="230" height="200" />
           </div>
         )}
         {!Status && (
           <div>
-            <h3 className="status" style={{ color: "rgb(168, 30, 30)" }}>
+            <h3 className="status" style={{ color: "red" }}>
               {" "}
               Closed{" "}
             </h3>
             <img
               src={window_closed}
               alt="window_open"
-              width="200"
-              height="160"
+              width="230"
+              height="200"
             />
           </div>
         )}
