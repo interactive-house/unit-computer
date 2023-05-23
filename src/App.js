@@ -70,7 +70,7 @@ function App() {
 
           if (
             diffInSeconds >
-            15000000000000000000000000000000000000000000000000000000000
+            15
           ) {
             console.log("User has been inactive for 15 seconds.");
             const auth = getAuth();

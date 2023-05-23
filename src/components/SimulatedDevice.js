@@ -6,7 +6,7 @@ import songnotes from "../media/songnotes.png";
 import "../style/SimulatedDevice.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import offline from "../media/offline.png";
-import equalizer from "../media/equalizer.gif";
+
 
 
 import { v4 as uuidv4 } from "uuid"; //npm install uuid
@@ -17,15 +17,14 @@ import {
   faStop,
   faBackward,
   faForward,
-  faSpa,
 } from "@fortawesome/free-solid-svg-icons";
-import { set } from "firebase/database";
+
 
 function SimulatedDevice() {
   const [actionData, setActionData] = useState(null);
   const [deviceStatus, setDeviceStatus] = useState(null);
   const [songList, setSongList] = useState([]);
-  const [status, setStatus] = useState(null);
+  const [, setStatus] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [state, setstate] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,9 +48,7 @@ function SimulatedDevice() {
 
     playerstateref.on("value", (snapshot) => {
       setstate(snapshot.val().toLowerCase());
-
       const state = snapshot.val().toLowerCase();
-
       if (state === "playing") {
         setIsPlaying(true);
       } else {
@@ -115,7 +112,6 @@ statusRef.on("value", (snapshot) => {
 
   const handlePrev = () => {
     const newUUID = uuidv4();
-
     firebase.database().ref("simulatedDevices/action").set({
       id: newUUID,
       type: "prev",
@@ -130,6 +126,7 @@ statusRef.on("value", (snapshot) => {
       type: "next",
     });
   };
+
 
   useEffect(() => {
     if (state !== null) {
@@ -206,17 +203,7 @@ statusRef.on("value", (snapshot) => {
                         )}
                       </div>
                     ))}
-
-                  
-       
-                          <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
-            
-
-
-
-
-
-
+                    <hr className={deviceStatus === "online" ? "hr-green" : "hr-red"} />
                     <ul>
                       {songList.map((song, index) => (
                         <li key={index}>
@@ -231,9 +218,6 @@ statusRef.on("value", (snapshot) => {
                                   type: "play",
                                   trackId: song.trackId,
                                 });
-
-                             
-                              
                             }}
                           >
                             {song.artist}: {song.track}

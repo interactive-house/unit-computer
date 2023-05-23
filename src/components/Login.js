@@ -33,7 +33,10 @@ function Login() {
           console.log(user);
           navigate("/home");
         }
-      );
+      ).catch((error) => {
+        console.log(error.message);
+        setWrongPassword(true);
+    } );
     } catch (error) {
       console.log(error.message);
       setWrongPassword(true);
