@@ -21,11 +21,18 @@ function Window() {
     };
   }, []);
 
-  const handleToggle = (checked) => {
-    firebase
-      .database()
-      .ref("/SmartHomeValueWindow/StatusOfWindow")
-      .set(checked ? "open" : "closed");
+  const handleToggle = () => {
+    if (Status === true) {
+      firebase
+        .database()
+        .ref("/SmartHomeValueWindow/StatusOfWindow")
+        .set("closed");
+    } else {
+        firebase
+        .database()
+        .ref("/SmartHomeValueWindow/StatusOfWindow")
+        .set("open");
+    }
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function Window() {
         {Status && (
           <div>
             <h3 className="status"> Open</h3>
-            <img src={window_open} alt="window_open" width="230" height="200" />
+            <img src={window_open} alt="window_open" width="230" height="200" onClick={() => handleToggle(Status)}/>
           </div>
         )}
         {!Status && (
@@ -82,6 +89,7 @@ function Window() {
               alt="window_open"
               width="230"
               height="200"
+              onClick={() => handleToggle(Status)}
             />
           </div>
         )}
