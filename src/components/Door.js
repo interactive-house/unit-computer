@@ -21,11 +21,18 @@ function Door() {
     };
   }, []);
 
-  const handleToggle = (checked) => {
-    firebase
+  const handleToggle = () => {
+    if (Status === true) {
+      firebase
       .database()
       .ref("SmartHomeValueDoor/StatusOfDoor")
-      .set(checked ? "open" : "closed");
+      .set("closed");
+    } else {
+      firebase
+      .database()
+      .ref("SmartHomeValueDoor/StatusOfDoor")
+      .set("open");
+    }
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function Door() {
         {Status && (
           <div>
             <h3 className="status"> Open </h3>
-            <img src={door_open} alt="door_open" width="120" height="225" />
+            <img src={door_open} alt="door_open" width="120" height="225" onClick={() => handleToggle()}/>
           </div>
         )}
         {!Status && (
@@ -77,7 +84,7 @@ function Door() {
               {" "}
               Closed{" "}
             </h3>
-            <img src={door_closed} alt="door_closed" width="120" height="225" />
+            <img src={door_closed} alt="door_closed" width="120" height="225" onClick={() => handleToggle()}/>
           </div>
         )}
       </div>

@@ -21,12 +21,20 @@ function Light() {
     };
   }, []);
 
-  const handleToggle = (checked) => {
-    firebase
+  const handleToggle = () => {
+    if (Status === true) {
+      firebase
       .database()
       .ref("SmartHomeValueLight/StatusOflight")
-      .set(checked ? "on" : "off");
+      .set("off");
+    } else {
+        firebase
+        .database()
+        .ref("SmartHomeValueLight/StatusOflight")
+        .set("on");
+    }
   };
+
 
   useEffect(() => {
     if (Status !== null) {
@@ -68,7 +76,7 @@ function Light() {
         {Status && (
           <div>
             <h3 className="status"> On </h3>
-            <img src={light_on} alt="light_on" width="180" height="222" />
+            <img src={light_on} alt="light_on" width="180" height="222" onClick={() => handleToggle()}/>
           </div>
         )}
         {!Status && (
@@ -77,7 +85,7 @@ function Light() {
               {" "}
               Off{" "}
             </h3>
-            <img src={light_off} alt="light_off" width="180" height="222" />
+            <img src={light_off} alt="light_off" width="180" height="222" onClick={() => handleToggle()}/>
           </div>
         )}
       </div>
