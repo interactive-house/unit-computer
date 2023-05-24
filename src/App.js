@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     const logUserActivity = (event) => {
-      //console.log(`User ${event.type} at ${new Date()}`);
+
       setUserActive(true);
       if (
         event.type === "mousemove" ||
@@ -45,12 +45,10 @@ function App() {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-      console.log("onAuthStateChanged hook called");
+      
       if (user) {
-        console.log("User is logged in");
         setLoggedIn(true);
       } else {
-        console.log("User is not logged in");
         setLoggedIn(false);
       }
     });
@@ -60,9 +58,6 @@ function App() {
     let timerId = null;
     if (loggedIn) {
       if (!userActive) {
-        if (!trackedActivity) {
-          //console.log("User is active.");
-        }
 
         timerId = setTimeout(() => {
           const currentTime = new Date();
@@ -70,9 +65,9 @@ function App() {
 
           if (
             diffInSeconds >
-            15
+            300 // 5 minutes
           ) {
-            console.log("User has been inactive for 15 seconds.");
+           
             const auth = getAuth();
             signOut(auth).then(() => {
               // Redirect the user to the login page
